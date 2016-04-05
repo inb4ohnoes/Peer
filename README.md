@@ -1,2 +1,4 @@
 # Peer
-A simple way to store peer feedback
+A simple way to store peer feedback.
+#### What it is
+Peer is a software application developed for internal use by Logan Fuller’s employer. The program is to be used as an efficient way to store data for peer feedback in the workplace. The internal structure of the business has several team leaders managing numerous employees. The team leaders should be able to create assessments which are composed of various questions regarding a specific employee. The employees will complete the assessments of another employee which functions as peer reviews. Once results are obtained a team leader should be the only person able to view the results of each assessment for every member in his or her team. Employees not a part of the same team will be able to review one another. The results of an assessment should be stored in a secured local database and not on an external server as this will be deployed internally. The design should be graphical and intuitive to the user.
