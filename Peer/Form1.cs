@@ -90,7 +90,7 @@ namespace Peer
             private string mUserName;
             private string mPassword;
             private Team mTeamID = new Team();
-            //Roles
+            private Role mRole = new Role();
 
             public void setUserID(string userID)
             {
@@ -127,6 +127,26 @@ namespace Peer
             {
                 return mTeamID.getTeamID();
             }
+
+            public void setRole(string roleID, string name, string description)
+            {
+                mRole.setRoleID(roleID);
+                mRole.setName(name);
+                mRole.setDescription(description);
+            }
+            public string getRoleID()
+            {
+                return mRole.getRoleID();
+            }
+            public string getName()
+            {
+                return mRole.getName();
+            }
+            public string getDescription()
+            {
+                return mRole.getDescription();
+            }
+
         }
 
         public class Admin : User
@@ -175,11 +195,17 @@ namespace Peer
             private string mRoleID;
             private string mName;
             private string mDescription;
-
-
+            
             public Role()
             {
 
+            }
+
+            public Role(string roleID, string name, string description)
+            {
+                mRoleID = roleID;
+                mName = name;
+                mDescription = description;
             }
             
             public void setRoleID(string roleID)
