@@ -26,6 +26,8 @@ namespace Peer
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtUsername.Clear();
+            txtPassword.Clear();
+            txtUsername.Focus();
         }
 
         public class Person
@@ -87,8 +89,8 @@ namespace Peer
             private string mUserID;
             private string mUserName;
             private string mPassword;
-            //private Team mTeamID = new Team();
-            //private Role mRoles = new Role();
+            private Team mTeamID = new Team();
+            //Roles
 
             public void setUserID(string userID)
             {
@@ -116,6 +118,15 @@ namespace Peer
             {
                 return mPassword;
             }
+
+            public void setTeamID(string teamID)
+            {
+                mTeamID.setTeamID(teamID);
+            }
+            public string getTeamID()
+            {
+                return mTeamID.getTeamID();
+            }
         }
 
         public class Admin : User
@@ -125,7 +136,38 @@ namespace Peer
 
         public class Team
         {
-           
+            private string mTeamID;
+            //leader
+            //user
+            private int mSize;
+
+            public Team()
+            {
+
+            }
+
+            public Team(string teamID)
+            {
+                mTeamID = teamID;
+            }
+
+            public void setTeamID(string teamID)
+            {
+                mTeamID = teamID;
+            }
+            public string getTeamID()
+            {
+                return mTeamID;
+            }
+
+            public void setSize(int size)
+            {
+                mSize = size;
+            }
+            public int getSize()
+            {
+                return mSize;
+            }
         }
 
         public class Role
@@ -135,6 +177,11 @@ namespace Peer
             private string mDescription;
 
 
+            public Role()
+            {
+
+            }
+            
             public void setRoleID(string roleID)
             {
                 mRoleID = roleID;
@@ -170,6 +217,16 @@ namespace Peer
             //Role
             //Questions
 
+            public Template()
+            {
+
+            }
+
+            public Template(string templateID)
+            {
+                mTemplateID = templateID;
+            }
+
             public void setTemplateID(string templateID)
             {
                 mTemplateID = templateID;
@@ -183,7 +240,7 @@ namespace Peer
         public class Assessment
         {
             private string mAssessmentID;
-            //mTemplateID
+            private Template mTemplateID = new Template();
             private string mReviewee;
             private string mReviewer;
 
@@ -194,6 +251,15 @@ namespace Peer
             public string getAssessmentID()
             {
                 return mAssessmentID;
+            }
+
+            public void setTemplateID(string templateID)
+            {
+                mTemplateID.setTemplateID(templateID);
+            }
+            public string getTemplateID()
+            {
+                return mTemplateID.getTemplateID();
             }
 
             public void setReviewee(string reviewee)
