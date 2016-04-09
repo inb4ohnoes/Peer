@@ -11,16 +11,32 @@ using System.Windows.Forms;
 namespace Peer
 {
     
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
-        public Form1()
+        public LoginForm()
         {
             InitializeComponent();
         }     
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            
+            //testing for now
+            if (txtUsername.Text.Equals("user"))
+            {
+                //consider initializing with initial values
+                UserTemplateForm template = new UserTemplateForm();
+                template.Show();
+
+                //hide this original one until user returns or logs out
+                Hide();
+
+            } else if (txtUsername.Text.Equals("admin"))
+            {
+                AdminManagerForm admin = new AdminManagerForm();
+                admin.Show();
+
+                Hide();
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -87,13 +103,8 @@ namespace Peer
             private string mUserID;
             private string mUserName;
             private string mPassword;
-<<<<<<< HEAD
-            private Team mTeamID = new Team();
-            private Role mRole = new Role();
-=======
             //private Team mTeamID = new Team();
             //private Role mRoles = new Role();
->>>>>>> parent of 4dabffb... Team Class and Template constructor
 
             public void setUserID(string userID)
             {
@@ -121,38 +132,6 @@ namespace Peer
             {
                 return mPassword;
             }
-<<<<<<< HEAD
-
-            public void setTeamID(string teamID)
-            {
-                mTeamID.setTeamID(teamID);
-            }
-            public string getTeamID()
-            {
-                return mTeamID.getTeamID();
-            }
-
-            public void setRole(string roleID, string name, string description)
-            {
-                mRole.setRoleID(roleID);
-                mRole.setName(name);
-                mRole.setDescription(description);
-            }
-            public string getRoleID()
-            {
-                return mRole.getRoleID();
-            }
-            public string getName()
-            {
-                return mRole.getName();
-            }
-            public string getDescription()
-            {
-                return mRole.getDescription();
-            }
-
-=======
->>>>>>> parent of 4dabffb... Team Class and Template constructor
         }
 
         public class Admin : User
@@ -170,24 +149,8 @@ namespace Peer
             private string mRoleID;
             private string mName;
             private string mDescription;
-<<<<<<< HEAD
-            
-            public Role()
-            {
-
-            }
-
-            public Role(string roleID, string name, string description)
-            {
-                mRoleID = roleID;
-                mName = name;
-                mDescription = description;
-            }
-            
-=======
 
 
->>>>>>> parent of 4dabffb... Team Class and Template constructor
             public void setRoleID(string roleID)
             {
                 mRoleID = roleID;
@@ -280,28 +243,15 @@ namespace Peer
 
         public interface Question
         {
-            public void setQuestion(string question)
-            {
+            void setQuestion(string question);
 
-            }
-            public string getQuestion()
-            {
+            string getQuestion();
 
-            }
+            void setAnswers();
 
-            public void setAnswers()
-            {
+            string getAnswers();
 
-            }
-            public string getAnswers()
-            {
-                
-            }
-
-            public string getType()
-            {
-                
-            }
+            string getType();
         }
     }
 }
