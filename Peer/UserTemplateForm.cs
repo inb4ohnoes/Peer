@@ -26,6 +26,11 @@ namespace Peer
         private void startButton_Click(object sender, EventArgs e)
         {
             //start the form for selected user
+
+            Hide();
+
+            UserReviewForm form = new UserReviewForm(selectedPerson, selectedTemplate);
+            form.Show();
         }
     }
 }
