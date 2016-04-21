@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Admin.cs" />
     <Compile Include="Assessment.cs" />
+    <Compile Include="clsDatabase.cs" />
     <Compile Include="FreeResponse.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>

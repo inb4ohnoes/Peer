@@ -30,10 +30,10 @@
         {
             this.welcomeLabel = new System.Windows.Forms.Label();
             this.templateGroupBox = new System.Windows.Forms.GroupBox();
-            this.usersListBox = new System.Windows.Forms.ListBox();
+            this.lstTemplate = new System.Windows.Forms.ListBox();
+            this.lstUsers = new System.Windows.Forms.ListBox();
             this.userChoiceGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.templateListBox = new System.Windows.Forms.ListBox();
             this.startButton = new System.Windows.Forms.Button();
             this.templateGroupBox.SuspendLayout();
             this.userChoiceGroupBox.SuspendLayout();
@@ -45,13 +45,13 @@
             this.welcomeLabel.AutoSize = true;
             this.welcomeLabel.Location = new System.Drawing.Point(13, 13);
             this.welcomeLabel.Name = "welcomeLabel";
-            this.welcomeLabel.Size = new System.Drawing.Size(273, 13);
+            this.welcomeLabel.Size = new System.Drawing.Size(248, 13);
             this.welcomeLabel.TabIndex = 0;
-            this.welcomeLabel.Text = "Welcome, %@. Please choose a template to get started.";
+            this.welcomeLabel.Text = "Welcome! Please choose a template to get started.";
             // 
             // templateGroupBox
             // 
-            this.templateGroupBox.Controls.Add(this.templateListBox);
+            this.templateGroupBox.Controls.Add(this.lstTemplate);
             this.templateGroupBox.Location = new System.Drawing.Point(235, 31);
             this.templateGroupBox.Name = "templateGroupBox";
             this.templateGroupBox.Size = new System.Drawing.Size(213, 420);
@@ -59,23 +59,36 @@
             this.templateGroupBox.TabStop = false;
             this.templateGroupBox.Text = "2. Available Templates";
             // 
-            // usersListBox
+            // lstTemplate
             // 
-            this.usersListBox.FormattingEnabled = true;
-            this.usersListBox.Items.AddRange(new object[] {
+            this.lstTemplate.FormattingEnabled = true;
+            this.lstTemplate.Items.AddRange(new object[] {
+            "test template 1",
+            "test template 2",
+            "test template 3",
+            "test template 4"});
+            this.lstTemplate.Location = new System.Drawing.Point(6, 19);
+            this.lstTemplate.Name = "lstTemplate";
+            this.lstTemplate.Size = new System.Drawing.Size(201, 394);
+            this.lstTemplate.TabIndex = 0;
+            // 
+            // lstUsers
+            // 
+            this.lstUsers.FormattingEnabled = true;
+            this.lstUsers.Items.AddRange(new object[] {
             "test user 1",
             "test user 2",
             "test uers 3",
             "test user 4"});
-            this.usersListBox.Location = new System.Drawing.Point(6, 19);
-            this.usersListBox.Name = "usersListBox";
-            this.usersListBox.Size = new System.Drawing.Size(201, 394);
-            this.usersListBox.TabIndex = 0;
-            this.usersListBox.SelectedValueChanged += new System.EventHandler(this.usersListBox_SelectedValueChanged);
+            this.lstUsers.Location = new System.Drawing.Point(6, 19);
+            this.lstUsers.Name = "lstUsers";
+            this.lstUsers.Size = new System.Drawing.Size(201, 394);
+            this.lstUsers.TabIndex = 0;
+            this.lstUsers.SelectedValueChanged += new System.EventHandler(this.usersListBox_SelectedValueChanged);
             // 
             // userChoiceGroupBox
             // 
-            this.userChoiceGroupBox.Controls.Add(this.usersListBox);
+            this.userChoiceGroupBox.Controls.Add(this.lstUsers);
             this.userChoiceGroupBox.Location = new System.Drawing.Point(16, 31);
             this.userChoiceGroupBox.Name = "userChoiceGroupBox";
             this.userChoiceGroupBox.Size = new System.Drawing.Size(213, 420);
@@ -92,19 +105,6 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "3. Start Assessment";
-            // 
-            // templateListBox
-            // 
-            this.templateListBox.FormattingEnabled = true;
-            this.templateListBox.Items.AddRange(new object[] {
-            "test template 1",
-            "test template 2",
-            "test template 3",
-            "test template 4"});
-            this.templateListBox.Location = new System.Drawing.Point(6, 19);
-            this.templateListBox.Name = "templateListBox";
-            this.templateListBox.Size = new System.Drawing.Size(201, 394);
-            this.templateListBox.TabIndex = 0;
             // 
             // startButton
             // 
@@ -139,10 +139,10 @@
 
         private System.Windows.Forms.Label welcomeLabel;
         private System.Windows.Forms.GroupBox templateGroupBox;
-        private System.Windows.Forms.ListBox usersListBox;
+        private System.Windows.Forms.ListBox lstUsers;
         private System.Windows.Forms.GroupBox userChoiceGroupBox;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListBox templateListBox;
+        private System.Windows.Forms.ListBox lstTemplate;
         private System.Windows.Forms.Button startButton;
     }
 }

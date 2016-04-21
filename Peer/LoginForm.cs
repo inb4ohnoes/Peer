@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Collections;
 
 namespace Peer
 {
     
     public partial class LoginForm : Form
     {
+        /*private clsDatabase db = new clsDatabase(ConfigurationManager.AppSettings["DBConnectionString"]);*/
+
         public LoginForm()
         {
             InitializeComponent();
@@ -20,8 +24,13 @@ namespace Peer
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            /*for (int i = 0; i < db.count; i++)
+            {
+
+            }*/
+            
             //testing for now
-            if (txtUsername.Text.Equals("user"))
+            if (/*Job Title*/ == ("user"))
             {
                 //consider initializing with initial values
                 UserTemplateForm template = new UserTemplateForm();
@@ -30,7 +39,8 @@ namespace Peer
                 //hide this original one until user returns or logs out
                 Hide();
 
-            } else if (txtUsername.Text.Equals("admin"))
+            } 
+            else if (/*Job Title*/ == ("admin"))
             {
                 AdminManagerForm admin = new AdminManagerForm();
                 admin.Show();
