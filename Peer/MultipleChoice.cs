@@ -18,34 +18,33 @@ public class MultipleChoice : Question
     {
         MCID = mid;
         Question = quest;
-        numResponses = resp;
         answers = ans;
     }
-    void setMCID(int mid)
+    public void setMCID(int mid)
     {
         MCID = mid;
     }
-    void setQuestion(string question)
+    public void setQuestion(string question)
     {
         Question = question;
     }
 
-    string getQuestion()
+    public string getQuestion()
     {
         return Question;
     }
 
-    void setAnswers(ArrayList a1)
+    public void setAnswers(ArrayList a1)
     {
         answers = a1;
     }
 
-    ArrayList getAnswers()
+    public ArrayList getAnswers()
     {
         return answers;
     }
 
-    string getType()
+    public string getType()
     {
         return "";
     }

@@ -82,11 +82,11 @@
             this.txtQ1 = new System.Windows.Forms.TextBox();
             this.btnAddQuestion = new System.Windows.Forms.Button();
             this.btnSaveTemplate = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtQ5 = new System.Windows.Forms.TextBox();
+            this.txtFRA1 = new System.Windows.Forms.TextBox();
             this.Q6Label = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtQ6 = new System.Windows.Forms.TextBox();
+            this.txtFRA2 = new System.Windows.Forms.TextBox();
             this.grp1 = new System.Windows.Forms.GroupBox();
             this.grp2 = new System.Windows.Forms.GroupBox();
             this.grp3 = new System.Windows.Forms.GroupBox();
@@ -600,21 +600,21 @@
             this.btnSaveTemplate.UseVisualStyleBackColor = true;
             this.btnSaveTemplate.Click += new System.EventHandler(this.btnSaveTemplate_Click);
             // 
-            // textBox1
+            // txtQ5
             // 
-            this.textBox1.Location = new System.Drawing.Point(44, 4);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(284, 32);
-            this.textBox1.TabIndex = 108;
+            this.txtQ5.Location = new System.Drawing.Point(44, 4);
+            this.txtQ5.Multiline = true;
+            this.txtQ5.Name = "txtQ5";
+            this.txtQ5.Size = new System.Drawing.Size(284, 32);
+            this.txtQ5.TabIndex = 108;
             // 
-            // textBox2
+            // txtFRA1
             // 
-            this.textBox2.Location = new System.Drawing.Point(44, 58);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(282, 195);
-            this.textBox2.TabIndex = 109;
+            this.txtFRA1.Location = new System.Drawing.Point(44, 58);
+            this.txtFRA1.Multiline = true;
+            this.txtFRA1.Name = "txtFRA1";
+            this.txtFRA1.Size = new System.Drawing.Size(282, 195);
+            this.txtFRA1.TabIndex = 109;
             // 
             // Q6Label
             // 
@@ -625,21 +625,21 @@
             this.Q6Label.TabIndex = 110;
             this.Q6Label.Text = "Q6";
             // 
-            // textBox4
+            // txtQ6
             // 
-            this.textBox4.Location = new System.Drawing.Point(31, 7);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(281, 36);
-            this.textBox4.TabIndex = 111;
+            this.txtQ6.Location = new System.Drawing.Point(31, 7);
+            this.txtQ6.Multiline = true;
+            this.txtQ6.Name = "txtQ6";
+            this.txtQ6.Size = new System.Drawing.Size(281, 36);
+            this.txtQ6.TabIndex = 111;
             // 
-            // textBox5
+            // txtFRA2
             // 
-            this.textBox5.Location = new System.Drawing.Point(31, 65);
-            this.textBox5.Multiline = true;
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(281, 195);
-            this.textBox5.TabIndex = 112;
+            this.txtFRA2.Location = new System.Drawing.Point(31, 65);
+            this.txtFRA2.Multiline = true;
+            this.txtFRA2.Name = "txtFRA2";
+            this.txtFRA2.Size = new System.Drawing.Size(281, 195);
+            this.txtFRA2.TabIndex = 112;
             // 
             // grp1
             // 
@@ -727,8 +727,8 @@
             // 
             // grp5
             // 
-            this.grp5.Controls.Add(this.textBox2);
-            this.grp5.Controls.Add(this.textBox1);
+            this.grp5.Controls.Add(this.txtFRA1);
+            this.grp5.Controls.Add(this.txtQ5);
             this.grp5.Controls.Add(this.Q5Label);
             this.grp5.Location = new System.Drawing.Point(34, 346);
             this.grp5.Name = "grp5";
@@ -739,8 +739,8 @@
             // 
             // grp6
             // 
-            this.grp6.Controls.Add(this.textBox5);
-            this.grp6.Controls.Add(this.textBox4);
+            this.grp6.Controls.Add(this.txtFRA2);
+            this.grp6.Controls.Add(this.txtQ6);
             this.grp6.Controls.Add(this.Q6Label);
             this.grp6.Location = new System.Drawing.Point(408, 339);
             this.grp6.Name = "grp6";
@@ -840,11 +840,11 @@
         private System.Windows.Forms.TextBox txtQ1;
         private System.Windows.Forms.Button btnAddQuestion;
         private System.Windows.Forms.Button btnSaveTemplate;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtQ5;
+        private System.Windows.Forms.TextBox txtFRA1;
         private System.Windows.Forms.Label Q6Label;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtQ6;
+        private System.Windows.Forms.TextBox txtFRA2;
         private System.Windows.Forms.GroupBox grp1;
         private System.Windows.Forms.GroupBox grp2;
         private System.Windows.Forms.GroupBox grp3;

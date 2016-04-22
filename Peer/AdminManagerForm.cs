@@ -13,10 +13,10 @@ namespace Peer
 {
     public partial class AdminManagerForm : Form
     {
+        Admin admin;
         public AdminManagerForm()
         {
             InitializeComponent();
-
             grpUser.Hide();
             grpAssessments.Hide();
         }

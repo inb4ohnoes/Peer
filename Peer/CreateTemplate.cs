@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -82,32 +83,84 @@ namespace Peer
             for (counter = 0; counter < i; counter++)
             {
                 MultipleChoice q = new MultipleChoice();
-                //Get MCID from DB
-                int mcid;
-                q.set
-                string question;
-                if (counter == 1)
+                string question = "";
+                if (counter == 0)
                 {
                     question = txtQ1.Text;
                 }
-                if (counter == 2)
+                if (counter == 1)
                 {
                     question = txtQ2.Text;
                 }
-                if (counter == 3)
+                if (counter == 2)
                 {
                     question = txtQ3.Text;
                 }
-                if (counter == 4)
+                if (counter == 3)
                 {
                     question = txtQ4.Text;
                 }
+                q.setQuestion(question);
+                ArrayList list = new ArrayList();
+                //Submit MCQuestion
+                //Get MCID from DB
+                int mcid;
+                q.setMCID(mcid);
                 for (counter2 = 0; counter2 < 5; counter2++)
                 {
                     MCAnswer m = new MCAnswer();
-
+                    string response = "";
+                    if (counter2 == 0)
+                    {
+                        response = "Strongly Agree";
+                    }
+                    if (counter2 == 1)
+                    {
+                        response = "Agree";
+                    }
+                    if (counter2 == 2)
+                    {
+                        response = "Neutral";
+                    }
+                    if (counter2 == 3)
+                    {
+                        response = "Disagree";
+                    }
+                    if (counter2 == 4)
+                    {
+                        response = "Strongly Disagree";
+                    }
+                    m.setAnswer(response);
+                    m.setMCID(mcid);
+                    //Submit MCAnswer to DB
+                    //Get MCAnswerID
+                    int MCAnswerID;
+                    m.setMCAnswerID(MCAnswerID);
+                    list.Add(m);
                 }
-
+                q.setAnswers(list);
+            }
+            for (counter = 0; counter < j; counter++)
+            {
+                FreeResponse q = new FreeResponse();
+                string question = "";
+                string answer = "";
+                if (counter == 0)
+                {
+                    question = txtQ5.Text;
+                    answer = txtFRA1.Text;
+                }
+                if (counter == 1)
+                {
+                    question = txtQ6.Text;
+                    answer = txtFRA2.Text;
+                }
+                q.setQuestion(question);
+                q.setAnswers(answer);
+                //Submit MCQuestion
+                //Get MCID from DB
+                int frid;
+                q.setFRID(frid);
             }
         }
     }

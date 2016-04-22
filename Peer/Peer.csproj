@@ -55,6 +55,7 @@
       <DependentUpon>CreateTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeResponse.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>

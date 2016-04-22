@@ -49,6 +49,7 @@ namespace Peer
                 Hide();
             }
             */
+            
         }
 
         private void btnClear_Click(object sender, EventArgs e)
