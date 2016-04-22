@@ -89,13 +89,8 @@
     <Compile Include="UserTemplateForm.Designer.cs">
       <DependentUpon>UserTemplateForm.cs</DependentUpon>
     </Compile>
-<<<<<<< HEAD
     <EmbeddedResource Include="CreateTemplate.resx">
       <DependentUpon>CreateTemplate.cs</DependentUpon>
-=======
-    <EmbeddedResource Include="AdminManagerForm.resx">
-      <DependentUpon>AdminManagerForm.cs</DependentUpon>
->>>>>>> origin/master
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
