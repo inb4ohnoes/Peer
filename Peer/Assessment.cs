@@ -17,11 +17,11 @@ public class Assessment
         return mAssessmentID;
     }
 
-    public void setTemplateID(string templateID)
+    public void setTemplateID(int templateID)
     {
         mTemplateID.setTemplateID(templateID);
     }
-    public string getTemplateID()
+    public int getTemplateID()
     {
         return mTemplateID.getTemplateID();
     }

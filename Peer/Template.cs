@@ -2,18 +2,24 @@
 
 public class Template
 {
-    private string mTemplateID;
+    private string mTemplateName;
+    private int mTemplateID;
+    private int mTemplateCreator;
     private Role mRole = new Role();
     //Questions
 
     public Template()
     {
-
+        mTemplateID = 0;
+        mTemplateName = "";
+        mTemplateCreator = 0;
     }
 
-    public Template(string templateID)
+    public Template(int id, string name, int creator)
     {
-        mTemplateID = templateID;
+        mTemplateName = name;
+        mTemplateID = id;
+        mTemplateCreator = creator;
     }
 
     public void setRole(string roleID, string name, string description)
@@ -26,6 +32,10 @@ public class Template
     {
         return mRole.getRoleID();
     }
+    public void setName(string nm)
+    {
+        mTemplateName = nm;
+    }
     public string getName()
     {
         return mRole.getName();
@@ -35,11 +45,11 @@ public class Template
         return mRole.getDescription();
     }
 
-    public void setTemplateID(string templateID)
+    public void setTemplateID(int templateID)
     {
         mTemplateID = templateID;
     }
-    public string getTemplateID()
+    public int getTemplateID()
     {
         return mTemplateID;
     }

@@ -30,7 +30,8 @@ namespace Peer
             }*/
             
             //testing for now
-            if (/*Job Title*/ == ("user"))
+            /*
+            if (/*Job Title/ == ("user"))
             {
                 //consider initializing with initial values
                 UserTemplateForm template = new UserTemplateForm();
@@ -40,13 +41,14 @@ namespace Peer
                 Hide();
 
             } 
-            else if (/*Job Title*/ == ("admin"))
+            else if (//Job Title == ("admin"))
             {
                 AdminManagerForm admin = new AdminManagerForm();
                 admin.Show();
 
                 Hide();
             }
+            */
         }
 
         private void btnClear_Click(object sender, EventArgs e)

@@ -48,6 +48,12 @@
     <Compile Include="Admin.cs" />
     <Compile Include="Assessment.cs" />
     <Compile Include="clsDatabase.cs" />
+    <Compile Include="CreateTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateTemplate.Designer.cs">
+      <DependentUpon>CreateTemplate.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeResponse.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -61,6 +67,7 @@
     <Compile Include="AdminManagerForm.Designer.cs">
       <DependentUpon>AdminManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCAnswer.cs" />
     <Compile Include="MultipleChoice.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
@@ -82,6 +89,9 @@
     <Compile Include="UserTemplateForm.Designer.cs">
       <DependentUpon>UserTemplateForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CreateTemplate.resx">
+      <DependentUpon>CreateTemplate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
