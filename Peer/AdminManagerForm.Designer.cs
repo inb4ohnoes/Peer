@@ -46,10 +46,14 @@
             this.btnCreateRole = new System.Windows.Forms.Button();
             this.btnModifyRole = new System.Windows.Forms.Button();
             this.btnDeleteRole = new System.Windows.Forms.Button();
+            this.grpTeam = new System.Windows.Forms.GroupBox();
+            this.btnModifyTeam = new System.Windows.Forms.Button();
+            this.lstTeam = new System.Windows.Forms.ListBox();
             this.grpResults.SuspendLayout();
             this.grpUser.SuspendLayout();
             this.grpAssessments.SuspendLayout();
             this.grpRoles.SuspendLayout();
+            this.grpTeam.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -129,7 +133,7 @@
             this.grpUser.Controls.Add(this.btnDeleteUser);
             this.grpUser.Location = new System.Drawing.Point(12, 190);
             this.grpUser.Name = "grpUser";
-            this.grpUser.Size = new System.Drawing.Size(449, 277);
+            this.grpUser.Size = new System.Drawing.Size(426, 277);
             this.grpUser.TabIndex = 6;
             this.grpUser.TabStop = false;
             this.grpUser.Text = "Selected User Information";
@@ -233,11 +237,42 @@
             this.btnDeleteRole.UseVisualStyleBackColor = true;
             this.btnDeleteRole.Click += new System.EventHandler(this.btnDeleteRole_Click);
             // 
+            // grpTeam
+            // 
+            this.grpTeam.Controls.Add(this.btnModifyTeam);
+            this.grpTeam.Controls.Add(this.lstTeam);
+            this.grpTeam.Location = new System.Drawing.Point(444, 190);
+            this.grpTeam.Name = "grpTeam";
+            this.grpTeam.Size = new System.Drawing.Size(437, 130);
+            this.grpTeam.TabIndex = 10;
+            this.grpTeam.TabStop = false;
+            this.grpTeam.Text = "Roles";
+            // 
+            // btnModifyTeam
+            // 
+            this.btnModifyTeam.Location = new System.Drawing.Point(6, 107);
+            this.btnModifyTeam.Name = "btnModifyTeam";
+            this.btnModifyTeam.Size = new System.Drawing.Size(96, 23);
+            this.btnModifyTeam.TabIndex = 10;
+            this.btnModifyTeam.Text = "Modify Team";
+            this.btnModifyTeam.UseVisualStyleBackColor = true;
+            this.btnModifyTeam.Click += new System.EventHandler(this.btnModifyTeam_Click);
+            // 
+            // lstTeam
+            // 
+            this.lstTeam.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstTeam.FormattingEnabled = true;
+            this.lstTeam.Location = new System.Drawing.Point(6, 14);
+            this.lstTeam.Name = "lstTeam";
+            this.lstTeam.Size = new System.Drawing.Size(414, 78);
+            this.lstTeam.TabIndex = 8;
+            // 
             // AdminManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1226, 797);
+            this.Controls.Add(this.grpTeam);
             this.Controls.Add(this.grpRoles);
             this.Controls.Add(this.grpUser);
             this.Controls.Add(this.grpResults);
@@ -253,6 +288,7 @@
             this.grpUser.PerformLayout();
             this.grpAssessments.ResumeLayout(false);
             this.grpRoles.ResumeLayout(false);
+            this.grpTeam.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,5 +314,8 @@
         private System.Windows.Forms.Button btnDeleteRole;
         private System.Windows.Forms.Button btnModifyRole;
         private System.Windows.Forms.Button btnCreateRole;
+        private System.Windows.Forms.GroupBox grpTeam;
+        private System.Windows.Forms.Button btnModifyTeam;
+        private System.Windows.Forms.ListBox lstTeam;
     }
 }

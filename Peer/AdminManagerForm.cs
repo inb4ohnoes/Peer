@@ -43,6 +43,17 @@ namespace Peer
                 ListItemRole av = new ListItemRole(r1);
                 available.Add(av);
             }
+            List<User> currentTLs = db.getTLs();
+            List<ListItemUser> ctls = new List<ListItemUser>();
+            foreach (User u1 in currentTLs)
+            {
+                ListItemUser uv = new ListItemUser(u1);
+                ctls.Add(uv);
+            }
+            lstTeam.DataSource = null;
+            lstTeam.DataSource = ctls;
+            lstTeam.DisplayMember = "name";
+            lstTeam.ValueMember = "uid";
             lstRoles.DataSource = null;
             lstRoles.DataSource = available;
             lstRoles.DisplayMember = "name";
@@ -211,6 +222,13 @@ namespace Peer
         private void AdminManagerForm_Load(object sender, EventArgs e)
         {
             callOnLoad();
+        }
+
+        private void btnModifyTeam_Click(object sender, EventArgs e)
+        {
+            EditTeam et = new EditTeam();
+            et.Show();
+            this.Hide();
         }
     }
 }

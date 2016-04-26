@@ -430,6 +430,52 @@ namespace Peer
             return roles;
         }
 
+        public List<User> getAdmins()
+        {
+            List<User> admins = new List<User>();
+
+            try
+            {
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                string sql = "SELECT * FROM [USER] INNER JOIN [PERSON] ON USER.PersonID = PERSON.PersonID WHERE USER.UserID = (SELECT UserID FROM [ADMIN])";
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.Add("@uid", OleDbType.Integer);
+                //cmd.Parameters["@uid"].Value = uid;
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                //Debug.WriteLine(i.ToString());
+
+                while (rdr.Read())
+                {
+                    User u = new User();
+                    //i++;
+                    int UserID = (int)rdr["UserID"];
+                    String UserName = (String)rdr["UserName"];
+                    String Password = (String)rdr["Password"];
+                    Team tid = this.getTeamByUser(UserID);
+                    List<Role> Roles = this.getRoleByUser(UserID);
+                    int PersonID = (int)rdr["USER.PersonID"];
+                    String FirstName = (String)rdr["FirstName"];
+                    String LastName = (String)rdr["LastName"];
+                    String Email = (String)rdr["Email"];
+                    int GraderNumber = Convert.ToInt16(rdr["GraderNumber"]);
+                    int Status = Convert.ToInt16(rdr["Status"]);
+
+                    u = new User(UserID, UserName, Password, tid, Roles, PersonID, FirstName, LastName, Email, Status, GraderNumber);
+                    admins.Add(u);
+                }
+                rdr.Close();
+                //Debug.WriteLine(i.ToString());
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return admins;
+        }
+
         public void updateUser(int pid, int uid, string un, string ps, string fn, string ln, string em, int gn, int tl)
         {
             Boolean cont = true;
@@ -753,54 +799,49 @@ namespace Peer
             return r;
         }
 
-        /*
-        public ArrayList loadUser(string sql)
+        public void insertTeam(int uid)
         {
-            ArrayList users = new ArrayList();
             try
             {
+                string sql = "INSERT INTO [TEAM] (TeamLeader) VALUES (@uid)";
                 openDatabaseConnection();
                 mDB.Open();
                 OleDbCommand cmd;
                 cmd = new OleDbCommand(sql, mDB);
-                OleDbDataReader rdr;
-                rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    //string userid = (string)rdr["UserID"];
-                    //string pass = (string)rdr["Password"];
-                    //string fname = (string)rdr["FirstName"];
-                    //string lname = (string)rdr["LastName"];
-                    //string email = (string)rdr["Email"];
-                    //string phonenumber = (string)rdr["PhoneNumber"];
-                    //string agegroup = (string)rdr["AgeGroup"];
-                    //Decimal price = (Decimal)rdr["AdmissionPrice"];
-                    //bool waiver = (bool)rdr["SignedWaiver"];
-                    //string pfname = (string)rdr["ParentFirstName"];
-                    //string plname = (string)rdr["ParentLastName"];
-                    clsUsers user = new clsUsers((string)rdr["UserID"],
-                        (string)rdr["Password"],
-                        (string)rdr["FirstName"],
-                        (string)rdr["LastName"],
-                        (string)rdr["Email"],
-                        (string)rdr["PhoneNumber"],
-                        (string)rdr["AgeGroup"],
-                        (Decimal)rdr["AdmissionPrice"],
-                        (bool)rdr["SignedWaiver"],
-                        (string)rdr["ParentFirstName"],
-                        (string)rdr["ParentLastName"]);
-                    users.Add(user);
-                }
-                rdr.Close();
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@uid", uid);
+                cmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            finally
             {
                 closeDatabaseConnection();
             }
-            return users;
         }
-        */
+
+        public void deleteTeam(int tlid)
+        {
+            try
+            {
+                string sql;
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                sql = "DELETE FROM [TEAM_USER] WHERE TeamID = (SELECT TeamID FROM [TEAM] WHERE TeamLeader = @ltid)";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.ExecuteNonQuery();
+
+                sql = "DELETE FROM [TEAM] WHERE TeamLeader = @tlid";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.ExecuteNonQuery();
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+        }
 
         public string DBPath
         {
