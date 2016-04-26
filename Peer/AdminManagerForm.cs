@@ -15,6 +15,7 @@ namespace Peer
         private clsDatabase db = new clsDatabase("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Logan\\Documents\\GitHub\\Peer\\Peerdb_fixed.accdb");
         //Admin admin;
         public static Person p1;
+        public static Role r1;
         public static AdminManagerForm admin;
 
         public AdminManagerForm()
@@ -25,36 +26,33 @@ namespace Peer
             admin = this;
         }
 
+        public void callOnLoad()
+        {
+            lblName.Text = "";
+            lblEmail.Text = "";
+            lblName.Visible = false;
+            lblEmail.Visible = false;
+            btnEditUser.Enabled = false;
+            grpUser.Visible = false;
+            txtSearch.Text = "";
+
+            List<Role> currentRoles = db.getRoles();
+            List < ListItemRole > available = new List<ListItemRole>();
+            foreach (Role r1 in currentRoles)
+            {
+                ListItemRole av = new ListItemRole(r1);
+                available.Add(av);
+            }
+            lstRoles.DataSource = null;
+            lstRoles.DataSource = available;
+            lstRoles.DisplayMember = "name";
+            lstRoles.ValueMember = "roleID";
+            lstRoles.SelectedIndex = -1;
+            lstResults.DataSource = null;
+            lstResults.SelectedIndex = -1;
+        }
+
         //button methods
-
-
-        //class methods
-        public bool createUser()
-        {
-            //USE UserTable
-            //INSERT SomeUser 
-            //return true/false if successful or not successful.
-            //may be useful sometime later
-            return false;
-        }
-
-        public bool deleteUser()
-        {
-            //returns YES/NO if successful or not successful
-            return false;
-        }
-
-        public User getUserInformation()
-        {
-
-            return new User();
-        }
-
-        public bool changeUserInformation()
-        {
-            //return true/false if successful or not successful
-            return false;
-        }
 
         public bool createAssessment()
         {
@@ -126,7 +124,7 @@ namespace Peer
             //lstResults.DataSource = people;
             //lstResults.Update();
             lstResults.EndUpdate();
-            lblTest.Text = people.Count.ToString();
+            //lblTest.Text = people.Count.ToString();
             
             if (people.Count > 0)
             {
@@ -142,7 +140,7 @@ namespace Peer
                 lblName.Visible = true;
                 lblEmail.Visible = true;
                 btnEditUser.Enabled = true;
-                lblTest.Text = str + "/" + index.ToString();
+                //lblTest.Text = str + "/" + index.ToString();
 
             }
             //lstResults.SelectedIndex = -1;
@@ -179,6 +177,40 @@ namespace Peer
             EditUser ed = new EditUser();
             ed.Show();
             this.Hide();
+        }
+
+        private void btnCreateRole_Click(object sender, EventArgs e)
+        {
+            r1 = new Role();
+            EditRole er = new EditRole();
+            er.Show();
+            this.Hide();
+        }
+
+        private void btnModifyRole_Click(object sender, EventArgs e)
+        {
+            int roleid = Convert.ToInt32(lstRoles.SelectedValue);
+            int index = Convert.ToInt32(lstRoles.SelectedIndex);
+            r1 = db.getRoleByID(roleid);
+            EditRole er = new EditRole();
+            er.Show();
+            this.Hide();
+        }
+
+        private void btnDeleteRole_Click(object sender, EventArgs e)
+        {
+            int roleid = Convert.ToInt32(lstRoles.SelectedValue);
+            int index = Convert.ToInt32(lstRoles.SelectedIndex);
+            if (index != -1)
+            {
+                db.deleteRole(roleid);
+            }
+            callOnLoad();
+        }
+
+        private void AdminManagerForm_Load(object sender, EventArgs e)
+        {
+            callOnLoad();
         }
     }
 }

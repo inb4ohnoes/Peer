@@ -55,6 +55,12 @@
     <Compile Include="CreateTemplate.Designer.cs">
       <DependentUpon>CreateTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditRole.Designer.cs">
+      <DependentUpon>EditRole.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CreateTemplate.resx">
       <DependentUpon>CreateTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRole.resx">
+      <DependentUpon>EditRole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditUser.resx">
       <DependentUpon>EditUser.cs</DependentUpon>

@@ -129,6 +129,7 @@ namespace Peer
         {
             AdminManagerForm.admin.Show();
             this.Hide();
+            AdminManagerForm.admin.callOnLoad();
         }
 
         private void btnSave_Click(object sender, EventArgs e)

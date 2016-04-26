@@ -627,6 +627,132 @@ namespace Peer
             }
         }
 
+        public int insertRole(String nm, String ds)
+        {
+            int rid = -1;
+            try
+            {
+                bool cont = true;
+                if (nm == "")
+                {
+                    cont = cont & false;
+                }
+                if (cont)
+                {
+                    string sql = "INSERT INTO [ROLE] (Name, Description) VALUES (@nm, @ds)";
+                    openDatabaseConnection();
+                    mDB.Open();
+                    OleDbCommand cmd;
+                    cmd = new OleDbCommand(sql, mDB);
+                    cmd.Parameters.AddWithValue("@nm", nm);
+                    cmd.Parameters.AddWithValue("@ds", ds);
+                    cmd.ExecuteNonQuery();
+
+                    sql = "SELECT RoleID FROM [ROLE] WHERE Name = @nm";
+
+                    cmd = new OleDbCommand(sql, mDB);
+                    cmd.Parameters.AddWithValue("@nm", nm);
+                    OleDbDataReader rdr;
+                    rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        rid = (int)rdr["RoleID"];
+
+                    }
+                }
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return rid;
+        }
+
+        public void updateRole(int rid, String nm, String ds)
+        {
+            try
+            {
+                bool cont = true;
+                if (nm == "")
+                {
+                    cont = cont & false;
+                }
+                if (cont)
+                {
+                    string sql = "UPDATE [ROLE] SET Name = @nm, Description = @ds WHERE RoleID = @rid";
+                    openDatabaseConnection();
+                    mDB.Open();
+                    OleDbCommand cmd;
+                    cmd = new OleDbCommand(sql, mDB);
+                    cmd.Parameters.AddWithValue("@nm", nm);
+                    cmd.Parameters.AddWithValue("@ds", ds);
+                    cmd.Parameters.AddWithValue("@rid", rid);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+        }
+
+        public void deleteRole(int rid)
+        {
+            try
+            {
+                string sql;
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                sql = "DELETE FROM [ROLE_USER] WHERE RoleID = @rid";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@rid", rid);
+                cmd.ExecuteNonQuery();
+
+                sql = "DELETE FROM [ROLE] WHERE RoleID = @rid";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@rid", rid);
+                cmd.ExecuteNonQuery();
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+        }
+
+        public Role getRoleByID(int rid)
+        {
+            Role r = new Role();
+            try
+            {
+                String name = "";
+                String desc = "";
+                String sql = "SELECT * FROM [ROLE] WHERE RoleID = @rid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@rid", rid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    rid = (int)rdr["RoleID"];
+                    name = (string)rdr["Name"];
+                    desc = (string)rdr["Description"];
+                }
+                r.setRoleID(rid);
+                r.setName(name);
+                r.setDescription(desc);
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return r;
+        }
+
         /*
         public ArrayList loadUser(string sql)
         {

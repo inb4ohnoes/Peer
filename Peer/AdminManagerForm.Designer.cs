@@ -31,6 +31,7 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.grpResults = new System.Windows.Forms.GroupBox();
+            this.btnEditUser = new System.Windows.Forms.Button();
             this.lstResults = new System.Windows.Forms.ListBox();
             this.btnCreateUser = new System.Windows.Forms.Button();
             this.btnDeleteUser = new System.Windows.Forms.Button();
@@ -40,11 +41,15 @@
             this.grpAssessments = new System.Windows.Forms.GroupBox();
             this.lstAssessments = new System.Windows.Forms.ListBox();
             this.lstTemplate = new System.Windows.Forms.GroupBox();
-            this.btnEditUser = new System.Windows.Forms.Button();
-            this.lblTest = new System.Windows.Forms.Label();
+            this.lstRoles = new System.Windows.Forms.ListBox();
+            this.grpRoles = new System.Windows.Forms.GroupBox();
+            this.btnCreateRole = new System.Windows.Forms.Button();
+            this.btnModifyRole = new System.Windows.Forms.Button();
+            this.btnDeleteRole = new System.Windows.Forms.Button();
             this.grpResults.SuspendLayout();
             this.grpUser.SuspendLayout();
             this.grpAssessments.SuspendLayout();
+            this.grpRoles.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -75,6 +80,17 @@
             this.grpResults.TabIndex = 2;
             this.grpResults.TabStop = false;
             this.grpResults.Text = "Results";
+            // 
+            // btnEditUser
+            // 
+            this.btnEditUser.Enabled = false;
+            this.btnEditUser.Location = new System.Drawing.Point(87, 107);
+            this.btnEditUser.Name = "btnEditUser";
+            this.btnEditUser.Size = new System.Drawing.Size(75, 23);
+            this.btnEditUser.TabIndex = 4;
+            this.btnEditUser.Text = "Edit User";
+            this.btnEditUser.UseVisualStyleBackColor = true;
+            this.btnEditUser.Click += new System.EventHandler(this.btnEditUser_Click);
             // 
             // lstResults
             // 
@@ -165,32 +181,64 @@
             this.lstTemplate.TabStop = false;
             this.lstTemplate.Text = "Template Management";
             // 
-            // btnEditUser
+            // lstRoles
             // 
-            this.btnEditUser.Enabled = false;
-            this.btnEditUser.Location = new System.Drawing.Point(87, 107);
-            this.btnEditUser.Name = "btnEditUser";
-            this.btnEditUser.Size = new System.Drawing.Size(75, 23);
-            this.btnEditUser.TabIndex = 4;
-            this.btnEditUser.Text = "Edit User";
-            this.btnEditUser.UseVisualStyleBackColor = true;
-            this.btnEditUser.Click += new System.EventHandler(this.btnEditUser_Click);
+            this.lstRoles.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstRoles.FormattingEnabled = true;
+            this.lstRoles.Location = new System.Drawing.Point(6, 14);
+            this.lstRoles.Name = "lstRoles";
+            this.lstRoles.Size = new System.Drawing.Size(414, 78);
+            this.lstRoles.TabIndex = 8;
             // 
-            // lblTest
+            // grpRoles
             // 
-            this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(529, 52);
-            this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(35, 13);
-            this.lblTest.TabIndex = 8;
-            this.lblTest.Text = "label2";
+            this.grpRoles.Controls.Add(this.btnDeleteRole);
+            this.grpRoles.Controls.Add(this.btnModifyRole);
+            this.grpRoles.Controls.Add(this.btnCreateRole);
+            this.grpRoles.Controls.Add(this.lstRoles);
+            this.grpRoles.Location = new System.Drawing.Point(444, 38);
+            this.grpRoles.Name = "grpRoles";
+            this.grpRoles.Size = new System.Drawing.Size(437, 130);
+            this.grpRoles.TabIndex = 9;
+            this.grpRoles.TabStop = false;
+            this.grpRoles.Text = "Roles";
+            // 
+            // btnCreateRole
+            // 
+            this.btnCreateRole.Location = new System.Drawing.Point(6, 107);
+            this.btnCreateRole.Name = "btnCreateRole";
+            this.btnCreateRole.Size = new System.Drawing.Size(96, 23);
+            this.btnCreateRole.TabIndex = 9;
+            this.btnCreateRole.Text = "Create Role";
+            this.btnCreateRole.UseVisualStyleBackColor = true;
+            this.btnCreateRole.Click += new System.EventHandler(this.btnCreateRole_Click);
+            // 
+            // btnModifyRole
+            // 
+            this.btnModifyRole.Location = new System.Drawing.Point(108, 107);
+            this.btnModifyRole.Name = "btnModifyRole";
+            this.btnModifyRole.Size = new System.Drawing.Size(96, 23);
+            this.btnModifyRole.TabIndex = 10;
+            this.btnModifyRole.Text = "Modify Role";
+            this.btnModifyRole.UseVisualStyleBackColor = true;
+            this.btnModifyRole.Click += new System.EventHandler(this.btnModifyRole_Click);
+            // 
+            // btnDeleteRole
+            // 
+            this.btnDeleteRole.Location = new System.Drawing.Point(210, 107);
+            this.btnDeleteRole.Name = "btnDeleteRole";
+            this.btnDeleteRole.Size = new System.Drawing.Size(96, 23);
+            this.btnDeleteRole.TabIndex = 11;
+            this.btnDeleteRole.Text = "Delete Role";
+            this.btnDeleteRole.UseVisualStyleBackColor = true;
+            this.btnDeleteRole.Click += new System.EventHandler(this.btnDeleteRole_Click);
             // 
             // AdminManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1226, 797);
-            this.Controls.Add(this.lblTest);
+            this.Controls.Add(this.grpRoles);
             this.Controls.Add(this.grpUser);
             this.Controls.Add(this.grpResults);
             this.Controls.Add(this.txtSearch);
@@ -199,10 +247,12 @@
             this.Controls.Add(this.grpAssessments);
             this.Name = "AdminManagerForm";
             this.Text = "Admin Manager Wow So Cool OMG";
+            this.Load += new System.EventHandler(this.AdminManagerForm_Load);
             this.grpResults.ResumeLayout(false);
             this.grpUser.ResumeLayout(false);
             this.grpUser.PerformLayout();
             this.grpAssessments.ResumeLayout(false);
+            this.grpRoles.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,6 +273,10 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Button btnEditUser;
-        private System.Windows.Forms.Label lblTest;
+        private System.Windows.Forms.ListBox lstRoles;
+        private System.Windows.Forms.GroupBox grpRoles;
+        private System.Windows.Forms.Button btnDeleteRole;
+        private System.Windows.Forms.Button btnModifyRole;
+        private System.Windows.Forms.Button btnCreateRole;
     }
 }
