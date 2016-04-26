@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Collections;
+using System.Data.OleDb;
 
 namespace Peer
 {
     
     public partial class LoginForm : Form
     {
-        /*private clsDatabase db = new clsDatabase(ConfigurationManager.AppSettings["DBConnectionString"]);*/
-
+        private clsDatabase db = new clsDatabase("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Logan\\Documents\\GitHub\\Peer\\Peerdb_fixed.accdb");
+        //static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" + @"Data Source=C:\Users\Logan\Documents\GitHub\Peer\Peerdb_fixed.accdb;";
+        //string query = "SELECT * FROM [USER]";
+        //OleDbConnection connection = new OleDbConnection(connectionString);
+        
         public LoginForm()
         {
             InitializeComponent();
@@ -24,11 +28,51 @@ namespace Peer
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            /*for (int i = 0; i < db.count; i++)
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+            /*try
             {
+                OleDbCommand c1 = new OleDbCommand(query, connection);
+                connection.Open();
+                OleDbDataReader reader = c1.ExecuteReader();
+                while (reader.Read())
+                {
+                    int userid = reader.GetInt32(0);
+                    lblError.Text = userid.ToString();
+                    lblError.Visible = true;
+                }
+                reader.Close();
+            }
+            finally
+            {
+                connection.Close();
+            }
+            */
+            int userid = -1;
+            userid = db.login(username, password);
+            if (userid == -1)
+            {
+                lblError.Visible = true;
+            }
+            else
+            {
+                int accountStatus = db.isAdmin(userid);
+                if (accountStatus == 0)
+                {
+                    UserTemplateForm template = new UserTemplateForm();
+                    template.Show();
 
-            }*/
-            
+                    //hide this original one until user returns or logs out
+                    Hide();
+                }
+                else
+                {
+                    AdminManagerForm admin = new AdminManagerForm();
+                    admin.Show();
+
+                    Hide();
+                }
+            }
             //testing for now
             /*
             if (/*Job Title/ == ("user"))
@@ -49,6 +93,7 @@ namespace Peer
                 Hide();
             }
             */
+            
             
         }
 

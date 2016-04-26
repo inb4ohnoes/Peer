@@ -6,9 +6,9 @@ public interface Question
 
     string getQuestion();
 
-    void setAnswers();
+    //void setAnswers();
 
-    string getAnswers();
+    //string getAnswers();
 
     string getType();
 }

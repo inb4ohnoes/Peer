@@ -4,11 +4,43 @@ namespace Peer
 {
     public class Person
     {
-        private string mFirstName;
+        public int mPersonID { get; set; }
+        public string mFirstName;
         private string mLastName;
         private string mEmail;
-        private string mStatus;
+        private int mStatus;
         private int mGraderNumber;
+        public string FullName { get; set; }
+
+        public Person ()
+        {
+            mPersonID = -1;
+            mFirstName = "";
+            mLastName = "";
+            mEmail = "";
+            mStatus = -1;
+            mGraderNumber = -1;
+        }
+        public Person (int pid, String fn, String ln, String em, int st, int gn)
+        {
+            mPersonID = pid;
+            mFirstName = fn;
+            mLastName = ln;
+            mEmail = em;
+            mStatus = st;
+            mGraderNumber = gn;
+            FullName = fn + " " + ln;
+        }
+
+        public void setPersonID(int pid)
+        {
+            mPersonID = pid;
+        }
+
+        public int getPersonID()
+        {
+            return mPersonID;
+        }
 
         public void setFirstName(string firstName)
         {
@@ -37,11 +69,11 @@ namespace Peer
             return mEmail;
         }
 
-        public void setStatus(string status)
+        public void setStatus(int status)
         {
             mStatus = status;
         }
-        public string getStatus()
+        public int getStatus()
         {
             return mStatus;
         }
@@ -53,6 +85,10 @@ namespace Peer
         public int getGraderNumber()
         {
             return mGraderNumber;
+        }
+        public override string ToString()
+        {
+            return mFirstName + " " + mLastName;
         }
     }
 }

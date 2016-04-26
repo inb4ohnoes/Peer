@@ -104,7 +104,7 @@ namespace Peer
                 ArrayList list = new ArrayList();
                 //Submit MCQuestion
                 //Get MCID from DB
-                int mcid;
+                int mcid = 0;
                 q.setMCID(mcid);
                 for (counter2 = 0; counter2 < 5; counter2++)
                 {
@@ -134,7 +134,7 @@ namespace Peer
                     m.setMCID(mcid);
                     //Submit MCAnswer to DB
                     //Get MCAnswerID
-                    int MCAnswerID;
+                    int MCAnswerID = 0;
                     m.setMCAnswerID(MCAnswerID);
                     list.Add(m);
                 }
@@ -159,7 +159,7 @@ namespace Peer
                 q.setAnswers(answer);
                 //Submit MCQuestion
                 //Get MCID from DB
-                int frid;
+                int frid = 0;
                 q.setFRID(frid);
             }
         }

@@ -34,6 +34,7 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtUsername
@@ -94,12 +95,23 @@
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // Form1
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(192, 34);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(133, 13);
+            this.lblError.TabIndex = 6;
+            this.lblError.Text = "Incorrect Login Information";
+            this.lblError.Visible = false;
+            // 
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(497, 277);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
@@ -108,7 +120,7 @@
             this.Controls.Add(this.txtUsername);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Name = "Form1";
+            this.Name = "LoginForm";
             this.Text = "Peer";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -123,6 +135,7 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Label lblError;
     }
 }
 

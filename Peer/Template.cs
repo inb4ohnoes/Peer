@@ -22,13 +22,13 @@ public class Template
         mTemplateCreator = creator;
     }
 
-    public void setRole(string roleID, string name, string description)
+    public void setRole(int roleID, string name, string description)
     {
         mRole.setRoleID(roleID);
         mRole.setName(name);
         mRole.setDescription(description);
     }
-    public string getRoleID()
+    public int getRoleID()
     {
         return mRole.getRoleID();
     }

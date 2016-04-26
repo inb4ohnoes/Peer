@@ -2,27 +2,29 @@
 
 public class Role
 {
-    private string mRoleID;
+    private int mRoleID;
     private string mName;
     private string mDescription;
 
     public Role()
     {
-
+        mRoleID = -1;
+        mName = "";
+        mDescription = "";
     }
 
-    public Role(string roleID, string name, string description)
+    public Role(int roleID, string name, string description)
     {
         mRoleID = roleID;
         mName = name;
         mDescription = description;
     }
 
-    public void setRoleID(string roleID)
+    public void setRoleID(int roleID)
     {
         mRoleID = roleID;
     }
-    public string getRoleID()
+    public int getRoleID()
     {
         return mRoleID;
     }

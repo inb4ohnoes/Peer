@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,6 +54,12 @@
     </Compile>
     <Compile Include="CreateTemplate.Designer.cs">
       <DependentUpon>CreateTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditUser.Designer.cs">
+      <DependentUpon>EditUser.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeResponse.cs" />
     <Compile Include="Globals.cs" />
@@ -90,8 +97,14 @@
     <Compile Include="UserTemplateForm.Designer.cs">
       <DependentUpon>UserTemplateForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdminManagerForm.resx">
+      <DependentUpon>AdminManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateTemplate.resx">
       <DependentUpon>CreateTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditUser.resx">
+      <DependentUpon>EditUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
