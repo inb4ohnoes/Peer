@@ -13,6 +13,7 @@ namespace Peer
 {
     public partial class CreateTemplate : Form
     {
+        private clsDatabase db = new clsDatabase("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Logan\\Documents\\GitHub\\Peer\\Peerdb_fixed.accdb");
         public CreateTemplate()
         {
             InitializeComponent();
@@ -75,8 +76,9 @@ namespace Peer
         {
             String name = txtName.Text;
             template1.setName(name);
+            template1.setCreator(LoginForm.u1);
             //Get Admin?
-
+            int tid = db.insertTemplate(name, LoginForm.u1);
             int counter;
             int counter2;
 
@@ -104,7 +106,7 @@ namespace Peer
                 ArrayList list = new ArrayList();
                 //Submit MCQuestion
                 //Get MCID from DB
-                int mcid = 0;
+                int mcid = db.insertMCQuestion(q);
                 q.setMCID(mcid);
                 for (counter2 = 0; counter2 < 5; counter2++)
                 {
@@ -134,11 +136,15 @@ namespace Peer
                     m.setMCID(mcid);
                     //Submit MCAnswer to DB
                     //Get MCAnswerID
-                    int MCAnswerID = 0;
+                    int MCAnswerID = db.insertMCAnswer(m);
                     m.setMCAnswerID(MCAnswerID);
                     list.Add(m);
                 }
                 q.setAnswers(list);
+                FreeResponse fr = new FreeResponse();
+                int qid = db.insertQuestion(q, fr);
+                db.insertQuestionIntoTemplate(tid, qid);
+
             }
             for (counter = 0; counter < j; counter++)
             {
@@ -159,8 +165,12 @@ namespace Peer
                 q.setAnswers(answer);
                 //Submit MCQuestion
                 //Get MCID from DB
-                int frid = 0;
+                int frid = db.insertFRQuestion(q);
+                MultipleChoice mc = new MultipleChoice();
                 q.setFRID(frid);
+                int qid = db.insertQuestion(mc, q);
+                db.insertQuestionIntoTemplate(tid, qid);
+
             }
         }
     }

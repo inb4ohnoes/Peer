@@ -48,4 +48,8 @@ public class MultipleChoice : Question
     {
         return "";
     }
+    public int getMCID()
+    {
+        return MCID;
+    }
 }

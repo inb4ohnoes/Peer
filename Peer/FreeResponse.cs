@@ -47,4 +47,8 @@ public class FreeResponse
     {
         return "";
     }
+    public int getFRID()
+    {
+        return FRID;
+    }
 }

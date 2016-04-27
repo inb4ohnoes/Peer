@@ -28,7 +28,7 @@ namespace Peer
         {
             btnRemoveRole.Enabled = false;
             btnAddRole.Enabled = false;
-            Person p1 = AdminManagerForm.p1;
+            user = AdminManagerForm.u1;
             int pid;
             String Username;
             String Password;
@@ -39,19 +39,20 @@ namespace Peer
             Team tid;
             User TL;
             List<Role> Roles;
-            FirstName = p1.getFirstName();
-            LastName = p1.getLastName();
-            Email = p1.getEmail();
-            GraderNumber = p1.getGraderNumber();
-            pid = p1.getPersonID();
-            user = db.getUserbyPerson(p1, pid);
+            FirstName = user.getFirstName();
+            LastName = user.getLastName();
+            Email = user.getEmail();
+            GraderNumber = user.getGraderNumber();
+            pid = user.getPersonID();
+            //user = db.getUserbyPerson(p1, pid);
+            int uid = user.getUserID();
             Username = user.getUserName();
             Password = user.getPassword();
             List<User> TLs;
             tid = user.getTeamID();
             TL = db.getUser(tid.getAdmin());
             String TLName = TL.getFirstName() + " " + TL.getLastName();
-            Roles = user.getRoleID();
+            Roles = db.getRoleByUser(uid);
             TLs = db.getTLs();
             List<ListItemUser> lius = new List<ListItemUser>();
             foreach (User u in TLs)
@@ -134,8 +135,8 @@ namespace Peer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Person p1 = AdminManagerForm.p1;
-            if (p1.getPersonID() == -1)
+            User u1 = AdminManagerForm.u1;
+            if (u1.getPersonID() == -1)
             {
                 String Username = txtUserName.Text;
                 String Password = txtPassword.Text;
@@ -146,14 +147,14 @@ namespace Peer
                 int TLid = Convert.ToInt32(cmbTextBox.SelectedValue);
                 int pid = db.insertPerson(FirstName, LastName, Email, GraderNumber, 1);
                 int uid = db.insertUser(Username, Password, pid);
-                db.insertUserIntoTeam(TLid, uid);
-                Person p = new Person(pid, FirstName, LastName, Email, 1, GraderNumber);
-                AdminManagerForm.p1 = p;
+                Team t = db.insertUserIntoTeam(TLid, uid);
+                List<Role> roles = db.getRoleByUser(uid);
+                User u = new User(uid, Username, Password, t, roles, pid, FirstName, LastName, Email, 1, GraderNumber);
+                AdminManagerForm.u1 = u;
             }
             else
             {
-                int pid = p1.getPersonID();
-                User u1 = db.getUserbyPerson(p1, pid);
+                int pid = u1.getPersonID();
                 int userid = u1.getUserID();
                 String Username = txtUserName.Text;
                 String Password = txtPassword.Text;
@@ -164,6 +165,9 @@ namespace Peer
                 Team tid = u1.getTeamID();
                 int TLid = Convert.ToInt32(cmbTextBox.SelectedValue);
                 User TL = db.getUser(tid.getAdmin());
+                Team teamid = db.getTeamByUser(TLid);
+                u1.setTeamID(teamid);
+
                 /*
                 List<int> roleids = new List<int>();
                 int count = lstRoles.Items.Count;
@@ -174,7 +178,7 @@ namespace Peer
                     roleids.Add(roleid);
                 }
                 */
-                db.updateUser(pid, userid, Username, Password, FirstName, LastName, Email, GraderNumber, TLid);
+                db.updateUser(pid, userid, Username, Password, FirstName, LastName, Email, GraderNumber, teamid.getTeamID());
             }
             callOnLoad();
         }

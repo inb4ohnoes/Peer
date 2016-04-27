@@ -13,14 +13,14 @@ using System.Data.OleDb;
 
 namespace Peer
 {
-    
     public partial class LoginForm : Form
     {
         private clsDatabase db = new clsDatabase("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Logan\\Documents\\GitHub\\Peer\\Peerdb_fixed.accdb");
         //static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" + @"Data Source=C:\Users\Logan\Documents\GitHub\Peer\Peerdb_fixed.accdb;";
         //string query = "SELECT * FROM [USER]";
         //OleDbConnection connection = new OleDbConnection(connectionString);
-        
+        public static User u1;
+
         public LoginForm()
         {
             InitializeComponent();
@@ -59,6 +59,7 @@ namespace Peer
                 int accountStatus = db.isAdmin(userid);
                 if (accountStatus == 0)
                 {
+                    u1 = db.getUser(userid);
                     UserTemplateForm template = new UserTemplateForm();
                     template.Show();
 
@@ -67,6 +68,7 @@ namespace Peer
                 }
                 else
                 {
+                    u1 = db.getUser(userid);
                     AdminManagerForm admin = new AdminManagerForm();
                     admin.Show();
 

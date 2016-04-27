@@ -114,34 +114,41 @@ namespace Peer
 
         }
 
-        public List<Person> searchUsers (string nm)
+        public List<User> searchUsers (string nm)
         {
-            List<Person> list = new List<Person>();
-            int i = 0;
+            List<User> users = new List<User>();
+
             try
             {
                 openDatabaseConnection();
                 mDB.Open();
                 OleDbCommand cmd;
-                string sql = "SELECT * FROM [PERSON] WHERE FirstName = ?";
+                string sql = "SELECT * FROM [USER] INNER JOIN [PERSON] ON USER.PersonID = PERSON.PersonID WHERE PERSON.FirstName LIKE @nm";
                 cmd = new OleDbCommand(sql, mDB);
-                cmd.Parameters.Add("@fn", OleDbType.VarChar);
-                cmd.Parameters["@fn"].Value = nm.Trim();
+                cmd.Parameters.AddWithValue("@nm", "%" + nm + "%");
+                //cmd.Parameters["@uid"].Value = uid;
                 OleDbDataReader rdr;
                 rdr = cmd.ExecuteReader();
                 //Debug.WriteLine(i.ToString());
 
                 while (rdr.Read())
                 {
-                    i++;
-                    int PersonID = (int)rdr["PersonID"];
+                    User u = new User();
+                    //i++;
+                    int UserID = (int)rdr["UserID"];
+                    String UserName = (String)rdr["UserName"];
+                    String Password = (String)rdr["Password"];
+                    Team tid = this.getTeamByUser(UserID);
+                    List<Role> Roles = this.getRoleByUser(UserID);
+                    int PersonID = (int)rdr["USER.PersonID"];
                     String FirstName = (String)rdr["FirstName"];
                     String LastName = (String)rdr["LastName"];
                     String Email = (String)rdr["Email"];
                     int GraderNumber = Convert.ToInt16(rdr["GraderNumber"]);
                     int Status = Convert.ToInt16(rdr["Status"]);
-                    Person p = new Person(PersonID, FirstName, LastName, Email, Status, GraderNumber);
-                    list.Add(p);
+
+                    u = new User(UserID, UserName, Password, tid, Roles, PersonID, FirstName, LastName, Email, Status, GraderNumber);
+                    users.Add(u);
                 }
                 rdr.Close();
                 //Debug.WriteLine(i.ToString());
@@ -150,7 +157,7 @@ namespace Peer
             {
                 closeDatabaseConnection();
             }
-            return list;
+            return users;
 
         }
 
@@ -200,7 +207,7 @@ namespace Peer
                 openDatabaseConnection();
                 mDB.Open();
                 OleDbCommand cmd;
-                string sql = "SELECT * FROM [TEAM] WHERE TeamID = (SELECT TeamID FROM [TEAM_USER] WHERE UserID = ?)";
+                string sql = "SELECT * FROM [TEAM] WHERE TeamID = (SELECT TeamID FROM [TEAM_USER] WHERE UserID = @uid)";
                 cmd = new OleDbCommand(sql, mDB);
                 cmd.Parameters.Add("@uid", OleDbType.Integer);
                 cmd.Parameters["@uid"].Value = uid;
@@ -530,12 +537,34 @@ namespace Peer
                     cmd.Parameters.AddWithValue("@pid", pid);
                     cmd.ExecuteNonQuery();
                     //sqlNonQuery(sql);
-                    sql = "UPDATE [TEAM_USER] SET TeamID = @tl WHERE UserID = @uid";
+                    sql = "SELECT COUNT(*) AS C FROM [TEAM_USER] WHERE UserID = @uid";
                     cmd = new OleDbCommand(sql, mDB);
-                    cmd.Parameters.AddWithValue("@tl", tl);
+                    //cmd.Parameters.AddWithValue("@tl", tl);
                     cmd.Parameters.AddWithValue("@uid", uid);
-                    cmd.ExecuteNonQuery();
-                    //sqlNonQuery(sql);
+                    OleDbDataReader rdr;
+                    rdr = cmd.ExecuteReader();
+                    int count = -1;
+                    while (rdr.Read())
+                    {
+                        count = (int)rdr["C"];
+                    }
+                    if (count > 0)
+                    {
+                        sql = "UPDATE [TEAM_USER] SET TeamID = @tl WHERE UserID = @uid";
+                        cmd = new OleDbCommand(sql, mDB);
+                        cmd.Parameters.AddWithValue("@tl", tl);
+                        cmd.Parameters.AddWithValue("@uid", uid);
+                        cmd.ExecuteNonQuery();
+                        //sqlNonQuery(sql);
+                    }
+                    else
+                    {
+                        sql = "INSERT INTO [TEAM_USER] (TeamID,UserID) VALUES (@tl, @uid)";
+                        cmd = new OleDbCommand(sql, mDB);
+                        cmd.Parameters.AddWithValue("@tl", tl);
+                        cmd.Parameters.AddWithValue("@uid", uid);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
                 finally
                 {
@@ -654,23 +683,41 @@ namespace Peer
             return uid;
         }
 
-        public void insertUserIntoTeam(int tlid, int uid)
+        public Team insertUserIntoTeam(int tlid, int uid)
         {
+            Team t = new Team();
             try
             {
-                string sql = "INSERT INTO [TEAM_USER] (TeamID, UserID) VALUES (@tlid, @uid)";
+                int tid = -1;
+                string sql = "SELECT TeamID FROM [TEAM] WHERE TeamLeader = @tlid";
                 openDatabaseConnection();
                 mDB.Open();
                 OleDbCommand cmd;
                 cmd = new OleDbCommand(sql, mDB);
                 cmd.Parameters.AddWithValue("@tlid", tlid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                //Debug.WriteLine(i.ToString());
+
+                while (rdr.Read())
+                {
+                    tid = (int)rdr["TeamID"];
+                }
+
+                sql = "INSERT INTO [TEAM_USER] (TeamID, UserID) VALUES (@tid, @uid)";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@tid", tid);
                 cmd.Parameters.AddWithValue("@uid", uid);
                 cmd.ExecuteNonQuery();
+
+                t.setAdmin(tlid);
+                t.setTeamID(tid);
             }
             finally
             {
                 closeDatabaseConnection();
             }
+            return t;
         }
 
         public int insertRole(String nm, String ds)
@@ -841,6 +888,404 @@ namespace Peer
             {
                 closeDatabaseConnection();
             }
+        }
+
+        public Template getTemplate(int tid)
+        {
+            Template t = new Template();
+            openDatabaseConnection();
+            mDB.Open();
+            OleDbCommand cmd;
+            string sql = "SELECT * FROM [TEMPLATE] WHERE TemplateID = @tid";
+            cmd = new OleDbCommand(sql, mDB);
+            cmd.Parameters.AddWithValue("@tid", tid);
+            OleDbDataReader rdr;
+            rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                String name = (string)rdr["Name"];
+                int cr = (int)rdr["Creator"];
+                t.setTemplateID(tid);
+                t.setName(name);
+                User u = getUser(cr);
+                t.setCreator(u);
+            }
+
+            return t;
+        }
+
+        public List<Template> getTemplates()
+        {
+            List<Template> listt = new List<Template>();
+            openDatabaseConnection();
+            mDB.Open();
+            OleDbCommand cmd;
+            string sql = "SELECT * FROM [TEMPLATE]";
+            cmd = new OleDbCommand(sql, mDB);
+           // cmd.Parameters.AddWithValue("@tid", tid);
+            OleDbDataReader rdr;
+            rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Template t = new Template();
+                String name = (string)rdr["Name"];
+                int cr = (int)rdr["Creator"];
+                int tid = (int)rdr["TemplateID"];
+                t.setTemplateID(tid);
+                t.setName(name);
+                User u = getUser(cr);
+                t.setCreator(u);
+                listt.Add(t);
+            }
+
+            return listt;
+        }
+
+        public List<Assessment> getAssessmentsForUser(User uid)
+        {
+            List<Assessment> asss = new List<Assessment>();
+            try
+            {
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                string sql = "SELECT * FROM [ASSESSMENT] WHERE Reviewer = @uid";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@uid", uid.getUserID());
+                //cmd.Parameters.Add("@uid", OleDbType.Integer);
+                //cmd.Parameters["@uid"].Value = uid;
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                //Debug.WriteLine(i.ToString());
+
+                while (rdr.Read())
+                {
+                    Assessment r;
+                    //i++;
+                    int aid = (int)rdr["AssessmentID"];
+                    int tid = (int)rdr["TemplateID"];
+                    int rvr = (int)rdr["Reviewer"];
+                    int rve = (int)rdr["Reviewee"];
+                    Template t = getTemplate(tid);
+                    User rr = getUser(rvr);
+                    User re = getUser(rve);
+
+                    r = new Assessment(aid, t, re, rr);
+                    asss.Add(r);
+                }
+                sql = "SELECT * FROM [ASSESSMENT] WHERE Reviewee = @uid";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@uid", uid.getUserID());
+                //cmd.Parameters.Add("@uid", OleDbType.Integer);
+                //cmd.Parameters["@uid"].Value = uid;
+                rdr = cmd.ExecuteReader();
+                //Debug.WriteLine(i.ToString());
+
+                while (rdr.Read())
+                {
+                    Assessment r;
+                    //i++;
+                    int aid = (int)rdr["AssessmentID"];
+                    int tid = (int)rdr["TemplateID"];
+                    int rvr = (int)rdr["Reviewer"];
+                    int rve = (int)rdr["Reviewee"];
+                    Template t = getTemplate(tid);
+                    User rr = getUser(rvr);
+                    User re = getUser(rve);
+
+                    r = new Assessment(aid, t, re, rr);
+                    asss.Add(r);
+                }
+                rdr.Close();
+                //Debug.WriteLine(i.ToString());
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return asss;
+        }
+
+        public int insertMCQuestion(MultipleChoice mc)
+        {
+            int mcid = -1;
+            string question = "";
+            //int mcaid = -1;
+            //string answer = "";
+
+            try
+            {
+                question = mc.getQuestion();
+                string sql = "INSERT INTO [MULTIPLECHOICE] (Question) VALUES (@qid)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@qid", question);
+                cmd.ExecuteNonQuery();
+
+                sql = "SELECT MCID FROM [MULTIPLECHOICE] WHERE Question = @qid";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@qid", question);
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    mcid = (int)rdr["MCID"];
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return mcid;
+        }
+
+        public int insertQuestion(MultipleChoice mc, FreeResponse fr)
+        {
+            int qid = -1;
+            int mcid = mc.getMCID();
+            int frid = fr.getFRID();
+            //int mcaid = -1;
+            //string answer = "";
+
+            try
+            {
+                String sql = "INSERT INTO [QUESTION] (MultipleChoice,FreeResponse) VALUES (@mcid, @frid)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                if (mcid == 0)
+                {
+                    cmd.Parameters.AddWithValue("@mcid", null);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@mcid", mcid);
+                }
+                if (frid == 0)
+                {
+                    cmd.Parameters.AddWithValue("@frid", null);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@frid", frid);
+                }
+                cmd.ExecuteNonQuery();
+                qid = -1;
+                sql = "SELECT QID FROM [QUESTION] WHERE MultipleChoice = @mcid AND FreeResponse = @frid";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                if (mcid == 0)
+                {
+                    cmd.Parameters.AddWithValue("@mcid", null);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@mcid", mcid);
+                }
+                if (frid == 0)
+                {
+                    cmd.Parameters.AddWithValue("@frid", null);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@frid", frid);
+                }
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    qid = (int)rdr["QuestionID"];
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return qid;
+
+        }
+        
+        public int insertTemplate(string nm, User cr)
+        {
+            int tid = -1;
+            //int mcaid = -1;
+            //string answer = "";
+
+            try
+            {
+                String sql = "INSERT INTO [TEMPLATE] (Name, Creator) VALUES (@nm, @cr)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@nm", nm);
+                cmd.Parameters.AddWithValue("@cr", cr.getUserID());
+                cmd.ExecuteNonQuery();
+                //qid = -1;
+                sql = "SELECT TemplateID FROM [TEMPLATE] WHERE Name = @nm AND Creator = @cr";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@nm", nm);
+                cmd.Parameters.AddWithValue("@cr", cr.getUserID());
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    tid = (int)rdr["TemplateID"];
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return tid;
+        }
+
+        public void insertQuestionIntoTemplate(int t, int q)
+        {
+            //int tid = -1;
+            //int mcaid = -1;
+            //string answer = "";
+
+            try
+            {
+                String sql = "INSERT INTO [TEMPLATE_QUESTION] (TemplateID, QuestionID) VALUES (@t, @q)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@t", t);
+                cmd.Parameters.AddWithValue("@q", q);
+                cmd.ExecuteNonQuery();
+                //qid = -1;
+                /*
+                sql = "SELECT TemplateID FROM [TEMPLATE_USER] WHERE Name = @nm AND Creator = @cr";
+                mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@nm", nm);
+                cmd.Parameters.AddWithValue("@cr", cr);
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    tid = (int)rdr["TemplateID"];
+                }
+                */
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            //return tid;
+        }
+
+        public int insertMCAnswer(MCAnswer mc)
+        {
+            int mcid = -1;
+            int mcaid = -1;
+            string response = "";
+            //int mcaid = -1;
+            //string answer = "";
+            mcid = mc.getMCID();
+            response = mc.getAnswer();
+
+            try
+            {
+                //response = mc.getAnswer();
+                string sql = "INSERT INTO [MCANSWER] (MCID, Answer) VALUES (@mcid, @rp)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                cmd.Parameters.AddWithValue("@rp", response);
+                cmd.ExecuteNonQuery();
+
+                sql = "SELECT MCAnswerID FROM [MCANSWER] WHERE MCID = @mcid AND ANSWER = @rp";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                cmd.Parameters.AddWithValue("@rp", response);
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    mcaid = (int)rdr["MCAnswerID"];
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return mcaid;
+        }
+
+        public int insertFRQuestion(FreeResponse fr)
+        {
+            int frid = -1;
+            string question = "";
+            //int mcaid = -1;
+            //string answer = "";
+
+            try
+            {
+                question = fr.getQuestion();
+                string sql = "INSERT INTO [FREERESPONSE] (Question) VALUES (@qid)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@qid", question);
+                cmd.ExecuteNonQuery();
+
+                sql = "SELECT FRID FROM [FREERESPONSE] WHERE Question = @qid";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@qid", question);
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    frid = (int)rdr["FRID"];
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return frid;
         }
 
         public string DBPath

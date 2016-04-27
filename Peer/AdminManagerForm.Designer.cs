@@ -31,6 +31,7 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.grpResults = new System.Windows.Forms.GroupBox();
+            this.btnGetUserInfo = new System.Windows.Forms.Button();
             this.btnEditUser = new System.Windows.Forms.Button();
             this.lstResults = new System.Windows.Forms.ListBox();
             this.btnCreateUser = new System.Windows.Forms.Button();
@@ -40,18 +41,21 @@
             this.lblName = new System.Windows.Forms.Label();
             this.grpAssessments = new System.Windows.Forms.GroupBox();
             this.lstAssessments = new System.Windows.Forms.ListBox();
-            this.lstTemplate = new System.Windows.Forms.GroupBox();
+            this.grpTemplate = new System.Windows.Forms.GroupBox();
             this.lstRoles = new System.Windows.Forms.ListBox();
             this.grpRoles = new System.Windows.Forms.GroupBox();
-            this.btnCreateRole = new System.Windows.Forms.Button();
-            this.btnModifyRole = new System.Windows.Forms.Button();
             this.btnDeleteRole = new System.Windows.Forms.Button();
+            this.btnModifyRole = new System.Windows.Forms.Button();
+            this.btnCreateRole = new System.Windows.Forms.Button();
             this.grpTeam = new System.Windows.Forms.GroupBox();
             this.btnModifyTeam = new System.Windows.Forms.Button();
             this.lstTeam = new System.Windows.Forms.ListBox();
+            this.btnCreateTemplate = new System.Windows.Forms.Button();
+            this.lstTemplates = new System.Windows.Forms.ListBox();
             this.grpResults.SuspendLayout();
             this.grpUser.SuspendLayout();
             this.grpAssessments.SuspendLayout();
+            this.grpTemplate.SuspendLayout();
             this.grpRoles.SuspendLayout();
             this.grpTeam.SuspendLayout();
             this.SuspendLayout();
@@ -75,6 +79,7 @@
             // 
             // grpResults
             // 
+            this.grpResults.Controls.Add(this.btnGetUserInfo);
             this.grpResults.Controls.Add(this.btnEditUser);
             this.grpResults.Controls.Add(this.lstResults);
             this.grpResults.Controls.Add(this.btnCreateUser);
@@ -85,10 +90,20 @@
             this.grpResults.TabStop = false;
             this.grpResults.Text = "Results";
             // 
+            // btnGetUserInfo
+            // 
+            this.btnGetUserInfo.Location = new System.Drawing.Point(6, 107);
+            this.btnGetUserInfo.Name = "btnGetUserInfo";
+            this.btnGetUserInfo.Size = new System.Drawing.Size(105, 23);
+            this.btnGetUserInfo.TabIndex = 5;
+            this.btnGetUserInfo.Text = "Get User Info";
+            this.btnGetUserInfo.UseVisualStyleBackColor = true;
+            this.btnGetUserInfo.Click += new System.EventHandler(this.btnGetUserInfo_Click);
+            // 
             // btnEditUser
             // 
             this.btnEditUser.Enabled = false;
-            this.btnEditUser.Location = new System.Drawing.Point(87, 107);
+            this.btnEditUser.Location = new System.Drawing.Point(198, 107);
             this.btnEditUser.Name = "btnEditUser";
             this.btnEditUser.Size = new System.Drawing.Size(75, 23);
             this.btnEditUser.TabIndex = 4;
@@ -109,7 +124,7 @@
             // 
             // btnCreateUser
             // 
-            this.btnCreateUser.Location = new System.Drawing.Point(6, 107);
+            this.btnCreateUser.Location = new System.Drawing.Point(117, 107);
             this.btnCreateUser.Name = "btnCreateUser";
             this.btnCreateUser.Size = new System.Drawing.Size(75, 23);
             this.btnCreateUser.TabIndex = 3;
@@ -141,7 +156,7 @@
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(9, 36);
+            this.lblEmail.Location = new System.Drawing.Point(6, 41);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(35, 13);
             this.lblEmail.TabIndex = 6;
@@ -176,14 +191,15 @@
             this.lstAssessments.Size = new System.Drawing.Size(326, 446);
             this.lstAssessments.TabIndex = 0;
             // 
-            // lstTemplate
+            // grpTemplate
             // 
-            this.lstTemplate.Location = new System.Drawing.Point(12, 546);
-            this.lstTemplate.Name = "lstTemplate";
-            this.lstTemplate.Size = new System.Drawing.Size(1196, 239);
-            this.lstTemplate.TabIndex = 7;
-            this.lstTemplate.TabStop = false;
-            this.lstTemplate.Text = "Template Management";
+            this.grpTemplate.Controls.Add(this.lstTemplates);
+            this.grpTemplate.Location = new System.Drawing.Point(12, 546);
+            this.grpTemplate.Name = "grpTemplate";
+            this.grpTemplate.Size = new System.Drawing.Size(1196, 239);
+            this.grpTemplate.TabIndex = 7;
+            this.grpTemplate.TabStop = false;
+            this.grpTemplate.Text = "Template Management";
             // 
             // lstRoles
             // 
@@ -207,15 +223,15 @@
             this.grpRoles.TabStop = false;
             this.grpRoles.Text = "Roles";
             // 
-            // btnCreateRole
+            // btnDeleteRole
             // 
-            this.btnCreateRole.Location = new System.Drawing.Point(6, 107);
-            this.btnCreateRole.Name = "btnCreateRole";
-            this.btnCreateRole.Size = new System.Drawing.Size(96, 23);
-            this.btnCreateRole.TabIndex = 9;
-            this.btnCreateRole.Text = "Create Role";
-            this.btnCreateRole.UseVisualStyleBackColor = true;
-            this.btnCreateRole.Click += new System.EventHandler(this.btnCreateRole_Click);
+            this.btnDeleteRole.Location = new System.Drawing.Point(210, 107);
+            this.btnDeleteRole.Name = "btnDeleteRole";
+            this.btnDeleteRole.Size = new System.Drawing.Size(96, 23);
+            this.btnDeleteRole.TabIndex = 11;
+            this.btnDeleteRole.Text = "Delete Role";
+            this.btnDeleteRole.UseVisualStyleBackColor = true;
+            this.btnDeleteRole.Click += new System.EventHandler(this.btnDeleteRole_Click);
             // 
             // btnModifyRole
             // 
@@ -227,15 +243,15 @@
             this.btnModifyRole.UseVisualStyleBackColor = true;
             this.btnModifyRole.Click += new System.EventHandler(this.btnModifyRole_Click);
             // 
-            // btnDeleteRole
+            // btnCreateRole
             // 
-            this.btnDeleteRole.Location = new System.Drawing.Point(210, 107);
-            this.btnDeleteRole.Name = "btnDeleteRole";
-            this.btnDeleteRole.Size = new System.Drawing.Size(96, 23);
-            this.btnDeleteRole.TabIndex = 11;
-            this.btnDeleteRole.Text = "Delete Role";
-            this.btnDeleteRole.UseVisualStyleBackColor = true;
-            this.btnDeleteRole.Click += new System.EventHandler(this.btnDeleteRole_Click);
+            this.btnCreateRole.Location = new System.Drawing.Point(6, 107);
+            this.btnCreateRole.Name = "btnCreateRole";
+            this.btnCreateRole.Size = new System.Drawing.Size(96, 23);
+            this.btnCreateRole.TabIndex = 9;
+            this.btnCreateRole.Text = "Create Role";
+            this.btnCreateRole.UseVisualStyleBackColor = true;
+            this.btnCreateRole.Click += new System.EventHandler(this.btnCreateRole_Click);
             // 
             // grpTeam
             // 
@@ -246,7 +262,7 @@
             this.grpTeam.Size = new System.Drawing.Size(437, 130);
             this.grpTeam.TabIndex = 10;
             this.grpTeam.TabStop = false;
-            this.grpTeam.Text = "Roles";
+            this.grpTeam.Text = "Teams";
             // 
             // btnModifyTeam
             // 
@@ -267,18 +283,37 @@
             this.lstTeam.Size = new System.Drawing.Size(414, 78);
             this.lstTeam.TabIndex = 8;
             // 
+            // btnCreateTemplate
+            // 
+            this.btnCreateTemplate.Location = new System.Drawing.Point(12, 517);
+            this.btnCreateTemplate.Name = "btnCreateTemplate";
+            this.btnCreateTemplate.Size = new System.Drawing.Size(111, 23);
+            this.btnCreateTemplate.TabIndex = 11;
+            this.btnCreateTemplate.Text = "Create Template";
+            this.btnCreateTemplate.UseVisualStyleBackColor = true;
+            this.btnCreateTemplate.Click += new System.EventHandler(this.btnCreateTemplate_Click);
+            // 
+            // lstTemplates
+            // 
+            this.lstTemplates.FormattingEnabled = true;
+            this.lstTemplates.Location = new System.Drawing.Point(9, 19);
+            this.lstTemplates.Name = "lstTemplates";
+            this.lstTemplates.Size = new System.Drawing.Size(1181, 199);
+            this.lstTemplates.TabIndex = 0;
+            // 
             // AdminManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1226, 797);
+            this.ClientSize = new System.Drawing.Size(1226, 783);
+            this.Controls.Add(this.btnCreateTemplate);
             this.Controls.Add(this.grpTeam);
             this.Controls.Add(this.grpRoles);
             this.Controls.Add(this.grpUser);
             this.Controls.Add(this.grpResults);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.lstTemplate);
+            this.Controls.Add(this.grpTemplate);
             this.Controls.Add(this.grpAssessments);
             this.Name = "AdminManagerForm";
             this.Text = "Admin Manager Wow So Cool OMG";
@@ -287,6 +322,7 @@
             this.grpUser.ResumeLayout(false);
             this.grpUser.PerformLayout();
             this.grpAssessments.ResumeLayout(false);
+            this.grpTemplate.ResumeLayout(false);
             this.grpRoles.ResumeLayout(false);
             this.grpTeam.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -305,7 +341,7 @@
         private System.Windows.Forms.GroupBox grpUser;
         private System.Windows.Forms.GroupBox grpAssessments;
         private System.Windows.Forms.ListBox lstAssessments;
-        private System.Windows.Forms.GroupBox lstTemplate;
+        private System.Windows.Forms.GroupBox grpTemplate;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Button btnEditUser;
@@ -317,5 +353,8 @@
         private System.Windows.Forms.GroupBox grpTeam;
         private System.Windows.Forms.Button btnModifyTeam;
         private System.Windows.Forms.ListBox lstTeam;
+        private System.Windows.Forms.Button btnGetUserInfo;
+        private System.Windows.Forms.ListBox lstTemplates;
+        private System.Windows.Forms.Button btnCreateTemplate;
     }
 }

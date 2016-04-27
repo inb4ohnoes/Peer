@@ -1,46 +1,64 @@
 ﻿using System;
-
-public class Assessment
+namespace Peer
 {
+    public class Assessment
+    {
 
-    private string mAssessmentID;
-    private Template mTemplateID = new Template();
-    private string mReviewee;
-    private string mReviewer;
+        private int mAssessmentID;
+        private Template mTemplateID;
+        private User mReviewee;
+        private User mReviewer;
 
-    public void setAssessmentID(string assessmentID)
-    {
-        mAssessmentID = assessmentID;
-    }
-    public string getAssessmentID()
-    {
-        return mAssessmentID;
-    }
+        public Assessment ()
+        {
+            mAssessmentID = -1;
+            mTemplateID = new Template();
+            mReviewee = new User();
+            mReviewer = new User();
+        }
 
-    public void setTemplateID(int templateID)
-    {
-        mTemplateID.setTemplateID(templateID);
-    }
-    public int getTemplateID()
-    {
-        return mTemplateID.getTemplateID();
-    }
+        public Assessment (int aid, Template tid, User rve, User rvr)
+        {
+            mAssessmentID = aid;
+            mTemplateID = tid;
+            mReviewee = rve;
+            mReviewer = rvr;
+        }
 
-    public void setReviewee(string reviewee)
-    {
-        mReviewee = reviewee;
-    }
-    public string getReviewee()
-    {
-        return mReviewee;
-    }
+        public void setAssessmentID(int assessmentID)
+        {
+            mAssessmentID = assessmentID;
+        }
+        public int getAssessmentID()
+        {
+            return mAssessmentID;
+        }
 
-    public void setReviewer(string reviewer)
-    {
-        mReviewer = reviewer;
-    }
-    public string getReviewer()
-    {
-        return mReviewer;
+        public void setTemplate(Template templ)
+        {
+            mTemplateID = templ;
+        }
+        public Template getTemplateID()
+        {
+            return mTemplateID;
+        }
+
+        public void setReviewee(User reviewee)
+        {
+            mReviewee = reviewee;
+        }
+        public User getReviewee()
+        {
+            return mReviewee;
+        }
+
+        public void setReviewer(User reviewer)
+        {
+            mReviewer = reviewer;
+        }
+        public User getReviewer()
+        {
+            return mReviewer;
+        }
     }
 }
