@@ -19,6 +19,7 @@ namespace Peer
         private User currentUser = LoginForm.u1;
         private User selectedUser;
         private Template selectedTemplate;
+        public static UserTemplateForm f;
 
         public UserTemplateForm()
         {
@@ -41,6 +42,7 @@ namespace Peer
             selectedTemplate = db.getTemplate(tid);
 
             Hide();
+            f = this;
 
             UserReviewForm form = new UserReviewForm(selectedUser, selectedTemplate);
             form.Show();

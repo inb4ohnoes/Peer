@@ -34,6 +34,8 @@ namespace Peer
             lblEmail.Text = "";
             lblName.Visible = false;
             lblEmail.Visible = false;
+            lblUser.Visible = false;
+            lblGrader.Visible = false;
             btnEditUser.Enabled = false;
             grpUser.Visible = false;
             txtSearch.Text = "";
@@ -80,27 +82,6 @@ namespace Peer
         }
 
         //button methods
-
-        public bool createAssessment()
-        {
-            //return true/false is successfully created or not
-            return false;
-        }
-
-        public bool deleteAssessment()
-        {
-            return false;
-        }
-
-        public void createQuestion()
-        {
-            
-        }
-
-        public void deleteQuestion()
-        {
-
-        }
 
         private void searchButton_Click(object sender, EventArgs e)
         {
@@ -237,6 +218,10 @@ namespace Peer
             lblEmail.Text = u1.getEmail();
             lblName.Visible = true;
             lblEmail.Visible = true;
+            lblUser.Visible = true;
+            lblUser.Text = u1.getUserName();
+            lblGrader.Visible = true;
+            lblGrader.Text = u1.getGraderNumber().ToString();
             List<Assessment> assessments = db.getAssessmentsForUser(u1);
             List<ListItemAssessment> list = new List<ListItemAssessment>();
             foreach (Assessment a in assessments)

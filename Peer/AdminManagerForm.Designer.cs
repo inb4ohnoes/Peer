@@ -42,6 +42,7 @@
             this.grpAssessments = new System.Windows.Forms.GroupBox();
             this.lstAssessments = new System.Windows.Forms.ListBox();
             this.grpTemplate = new System.Windows.Forms.GroupBox();
+            this.lstTemplates = new System.Windows.Forms.ListBox();
             this.lstRoles = new System.Windows.Forms.ListBox();
             this.grpRoles = new System.Windows.Forms.GroupBox();
             this.btnDeleteRole = new System.Windows.Forms.Button();
@@ -51,7 +52,8 @@
             this.btnModifyTeam = new System.Windows.Forms.Button();
             this.lstTeam = new System.Windows.Forms.ListBox();
             this.btnCreateTemplate = new System.Windows.Forms.Button();
-            this.lstTemplates = new System.Windows.Forms.ListBox();
+            this.lblGrader = new System.Windows.Forms.Label();
+            this.lblUser = new System.Windows.Forms.Label();
             this.grpResults.SuspendLayout();
             this.grpUser.SuspendLayout();
             this.grpAssessments.SuspendLayout();
@@ -143,6 +145,8 @@
             // 
             // grpUser
             // 
+            this.grpUser.Controls.Add(this.lblUser);
+            this.grpUser.Controls.Add(this.lblGrader);
             this.grpUser.Controls.Add(this.lblEmail);
             this.grpUser.Controls.Add(this.lblName);
             this.grpUser.Controls.Add(this.btnDeleteUser);
@@ -156,17 +160,17 @@
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(6, 41);
+            this.lblEmail.Location = new System.Drawing.Point(6, 62);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(35, 13);
+            this.lblEmail.Size = new System.Drawing.Size(57, 13);
             this.lblEmail.TabIndex = 6;
-            this.lblEmail.Text = "label1";
+            this.lblEmail.Text = "emailLabel";
             this.lblEmail.Visible = false;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(6, 19);
+            this.lblName.Location = new System.Drawing.Point(6, 40);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(59, 13);
             this.lblName.TabIndex = 5;
@@ -200,6 +204,14 @@
             this.grpTemplate.TabIndex = 7;
             this.grpTemplate.TabStop = false;
             this.grpTemplate.Text = "Template Management";
+            // 
+            // lstTemplates
+            // 
+            this.lstTemplates.FormattingEnabled = true;
+            this.lstTemplates.Location = new System.Drawing.Point(9, 19);
+            this.lstTemplates.Name = "lstTemplates";
+            this.lstTemplates.Size = new System.Drawing.Size(1181, 199);
+            this.lstTemplates.TabIndex = 0;
             // 
             // lstRoles
             // 
@@ -293,13 +305,23 @@
             this.btnCreateTemplate.UseVisualStyleBackColor = true;
             this.btnCreateTemplate.Click += new System.EventHandler(this.btnCreateTemplate_Click);
             // 
-            // lstTemplates
+            // lblGrader
             // 
-            this.lstTemplates.FormattingEnabled = true;
-            this.lstTemplates.Location = new System.Drawing.Point(9, 19);
-            this.lstTemplates.Name = "lstTemplates";
-            this.lstTemplates.Size = new System.Drawing.Size(1181, 199);
-            this.lstTemplates.TabIndex = 0;
+            this.lblGrader.AutoSize = true;
+            this.lblGrader.Location = new System.Drawing.Point(6, 84);
+            this.lblGrader.Name = "lblGrader";
+            this.lblGrader.Size = new System.Drawing.Size(63, 13);
+            this.lblGrader.TabIndex = 7;
+            this.lblGrader.Text = "graderLabel";
+            // 
+            // lblUser
+            // 
+            this.lblUser.AutoSize = true;
+            this.lblUser.Location = new System.Drawing.Point(6, 16);
+            this.lblUser.Name = "lblUser";
+            this.lblUser.Size = new System.Drawing.Size(53, 13);
+            this.lblUser.TabIndex = 8;
+            this.lblUser.Text = "userLabel";
             // 
             // AdminManagerForm
             // 
@@ -356,5 +378,7 @@
         private System.Windows.Forms.Button btnGetUserInfo;
         private System.Windows.Forms.ListBox lstTemplates;
         private System.Windows.Forms.Button btnCreateTemplate;
+        private System.Windows.Forms.Label lblUser;
+        private System.Windows.Forms.Label lblGrader;
     }
 }

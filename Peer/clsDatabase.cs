@@ -973,6 +973,10 @@ namespace Peer
                     r = new Assessment(aid, t, re, rr);
                     asss.Add(r);
                 }
+                rdr.Close();
+                closeDatabaseConnection();
+                openDatabaseConnection();
+                mDB.Open();
                 sql = "SELECT * FROM [ASSESSMENT] WHERE Reviewee = @uid";
                 cmd = new OleDbCommand(sql, mDB);
                 cmd.Parameters.AddWithValue("@uid", uid.getUserID());
@@ -1364,6 +1368,305 @@ namespace Peer
                 closeDatabaseConnection();
             }
             return list;
+        }
+
+        public List<int> getQuestionsForTemplate(int tid)
+        {
+            List<int> list = new List<int>();
+            try
+            {
+                String sql = "SELECT QuestionID FROM [TEMPLATE_QUESTION] WHERE TemplateID = @tid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@tid", tid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    int qid = (int)rdr["QuestionID"];
+                    list.Add(qid);
+                }
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return list;
+        }
+
+        public int getMCFromQuestion(int qid)
+        {
+            int mcid = -1;
+            try
+            {
+                
+                String sql = "SELECT MultipleChoice FROM [QUESTION] WHERE QuestionID = @qid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@qid", qid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    mcid = (int)rdr["MultipleChoice"];
+                    //list.Add(qid);
+                }
+                
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return mcid;
+        }
+
+        public int getFRFromQuestion(int qid)
+        {
+            int frid = -1;
+            try
+            {
+
+                String sql = "SELECT FreeResponse FROM [QUESTION] WHERE QuestionID = @qid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@qid", qid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    frid = (int)rdr["FreeResponse"];
+                    //list.Add(qid);
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return frid;
+        }
+
+        public MultipleChoice getMC(int mcid)
+        {
+            MultipleChoice mc = new MultipleChoice();
+            try
+            {
+
+                String sql = "SELECT * FROM [MULTIPLECHOICE] WHERE MCID = @mcid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    string question = (string)rdr["Question"];
+                    mc.setMCID(mcid);
+                    mc.setQuestion(question);
+                    //list.Add(qid);
+                }
+                sql = "SELECT * FROM [MCANSWER] WHERE MCID = @mcid";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                rdr = cmd.ExecuteReader();
+                ArrayList ls = new ArrayList();
+                while (rdr.Read())
+                {
+                    String answer = (string)rdr["Answer"];
+                    ls.Add(answer);
+                }
+                mc.setAnswers(ls);
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return mc;
+        }
+
+        public FreeResponse getFR(int frid)
+        {
+            FreeResponse fr = new FreeResponse();
+            try
+            {
+
+                String sql = "SELECT Question FROM [FREERESPONSE] WHERE FRID = @frid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@frid", frid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    string question = (string)rdr["Question"];
+                    fr.setFRID(frid);
+                    fr.setQuestion(question);
+                    //list.Add(qid);
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return fr;
+        }
+
+        public int insertAssessment(int tid, int rvr, int rve)
+        {
+            int aid = -1;
+            //int mcaid = -1;
+            //string answer = "";
+
+            try
+            {
+                String sql = "INSERT INTO [ASSESSMENT] (TemplateID, Reviewer, Reviewee) VALUES (@tid, @rvr, @rve)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@tid", tid);
+                cmd.Parameters.AddWithValue("@rvr", rvr);
+                cmd.Parameters.AddWithValue("@rve", rve);
+                cmd.ExecuteNonQuery();
+                //qid = -1;
+                sql = "SELECT AssessmentID FROM [ASSESSMENT] WHERE TemplateID = @tid AND Reviewer = @rvr AND Reviewee = @rve";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@tid", tid);
+                cmd.Parameters.AddWithValue("@rvr", rvr);
+                cmd.Parameters.AddWithValue("@rve", rve);
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    aid = (int)rdr["AssessmentID"];
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return aid;
+        }
+
+        public int getQuestionIDFromMC(int mcid)
+        {
+            int qid = -1;
+            try
+            {
+
+                String sql = "SELECT QuestionID FROM [QUESTION] WHERE MultipleChoice = @mcid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    qid = (int)rdr["QuestionID"];
+                    //list.Add(qid);
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return qid;
+        }
+
+        public int getQuestionIDFromFR(int mcid)
+        {
+            int qid = -1;
+            try
+            {
+
+                String sql = "SELECT QuestionID FROM [QUESTION] WHERE FreeResponse = @mcid";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                //string sql = "SELECT * FROM [TEMPLATE]";
+                cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    qid = (int)rdr["QuestionID"];
+                    //list.Add(qid);
+                }
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return qid;
+        }
+
+        public void insertAssessmentAnswer(int aid, int qid, string answer)
+        {
+            try
+            {
+                string sql = "INSERT INTO [ASSESSMENT_ANSWER] (AssessmentID, QuestionID, Answer) VALUES (@aid, @qid, @ans)";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@aid", aid);
+                cmd.Parameters.AddWithValue("@qid", qid);
+                cmd.Parameters.AddWithValue("@ans", answer);
+                cmd.ExecuteNonQuery();
+                //qid = -1;
+                /*
+                sql = "SELECT AssessmentID FROM [ASSESSMENT] WHERE TemplateID = @tid AND Reviewer = @rvr AND Reviewee = @rve";
+                //mDB.Open();
+                //OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.AddWithValue("@tlid", tlid);
+                cmd.Parameters.AddWithValue("@tid", tid);
+                cmd.Parameters.AddWithValue("@rvr", rvr);
+                cmd.Parameters.AddWithValue("@rve", rve);
+                //cmd.ExecuteNonQuery();
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    aid = (int)rdr["AssessmentID"];
+                }
+                */
+
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
         }
 
         public string DBPath
