@@ -12,11 +12,13 @@ namespace Peer
 {
     public partial class UserReviewForm : Form
     {
-        public UserReviewForm(Person selectedPersonIn, Template selectedTemplateIn)
+        public UserReviewForm(User selectedUserin, Template selectedTemplateIn)
         {
             InitializeComponent();
 
             //No idea what else to do...
+            label1.Text = selectedUserin.getFirstName() + "--------" + selectedTemplateIn.getName();
+
         }
     }
 }

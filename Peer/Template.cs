@@ -29,7 +29,7 @@ namespace Peer
         }
         public string getName()
         {
-            return mRole.getName();
+            return mTemplateName;
         }
         public string getDescription()
         {

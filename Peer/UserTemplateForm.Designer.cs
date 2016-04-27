@@ -35,6 +35,7 @@
             this.userChoiceGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.startButton = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.templateGroupBox.SuspendLayout();
             this.userChoiceGroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -62,11 +63,6 @@
             // lstTemplate
             // 
             this.lstTemplate.FormattingEnabled = true;
-            this.lstTemplate.Items.AddRange(new object[] {
-            "test template 1",
-            "test template 2",
-            "test template 3",
-            "test template 4"});
             this.lstTemplate.Location = new System.Drawing.Point(6, 19);
             this.lstTemplate.Name = "lstTemplate";
             this.lstTemplate.Size = new System.Drawing.Size(201, 394);
@@ -75,11 +71,6 @@
             // lstUsers
             // 
             this.lstUsers.FormattingEnabled = true;
-            this.lstUsers.Items.AddRange(new object[] {
-            "test user 1",
-            "test user 2",
-            "test uers 3",
-            "test user 4"});
             this.lstUsers.Location = new System.Drawing.Point(6, 19);
             this.lstUsers.Name = "lstUsers";
             this.lstUsers.Size = new System.Drawing.Size(201, 394);
@@ -98,6 +89,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnRefresh);
             this.groupBox2.Controls.Add(this.startButton);
             this.groupBox2.Location = new System.Drawing.Point(454, 30);
             this.groupBox2.Name = "groupBox2";
@@ -116,6 +108,16 @@
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(75, 379);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 1;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // UserTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -127,6 +129,7 @@
             this.Controls.Add(this.welcomeLabel);
             this.Name = "UserTemplateForm";
             this.Text = "Template Chooser";
+            this.Load += new System.EventHandler(this.UserTemplateForm_Load);
             this.templateGroupBox.ResumeLayout(false);
             this.userChoiceGroupBox.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -144,5 +147,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox lstTemplate;
         private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }

@@ -89,6 +89,11 @@
     </Compile>
     <Compile Include="MCAnswer.cs" />
     <Compile Include="MultipleChoice.cs" />
+    <Compile Include="Peerdb_fixedDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Peerdb_fixedDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +147,17 @@
     <EmbeddedResource Include="UserTemplateForm.resx">
       <DependentUpon>UserTemplateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Peerdb_fixedDataSet.xsc">
+      <DependentUpon>Peerdb_fixedDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Peerdb_fixedDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Peerdb_fixedDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Peerdb_fixedDataSet.xss">
+      <DependentUpon>Peerdb_fixedDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -154,6 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Peerdb_fixed.accdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

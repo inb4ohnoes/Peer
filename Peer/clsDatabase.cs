@@ -1058,51 +1058,84 @@ namespace Peer
             try
             {
                 String sql = "INSERT INTO [QUESTION] (MultipleChoice,FreeResponse) VALUES (@mcid, @frid)";
+                //String sql = "";
                 openDatabaseConnection();
                 mDB.Open();
                 OleDbCommand cmd;
                 cmd = new OleDbCommand(sql, mDB);
                 //cmd.Parameters.AddWithValue("@tlid", tlid);
-                if (mcid == 0)
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                cmd.Parameters.AddWithValue("@frid", frid);
+                /*
+                if (mcid > 0)
                 {
-                    cmd.Parameters.AddWithValue("@mcid", null);
-                }
-                else
-                {
+                    sql = "INSERT INTO [QUESTION] (MultipleChoice,FreeResponse) VALUES (@mcid, NULL)";
+                    cmd = new OleDbCommand(sql, mDB);
                     cmd.Parameters.AddWithValue("@mcid", mcid);
-                }
-                if (frid == 0)
-                {
-                    cmd.Parameters.AddWithValue("@frid", null);
+                    //cmd.Parameters.AddWithValue("@frid", DBNull.Value);
                 }
                 else
                 {
+                    //cmd.Parameters.AddWithValue("@mcid", DBNull.Value);
+                    sql = "INSERT INTO [QUESTION] (MultipleChoice,FreeResponse) VALUES (NULL, @frid)";
+                    cmd = new OleDbCommand(sql, mDB);
                     cmd.Parameters.AddWithValue("@frid", frid);
                 }
+                /*
+                if (mcid > 0)
+                {
+                    sql = "INSERT INTO [QUESTION] (MultipleChoice,FreeResponse) VALUES (@mcid, null)";
+                    cmd = new OleDbCommand(sql, mDB);
+                    cmd.Parameters.AddWithValue("@mcid", mcid);
+
+                }
+                else
+                {
+                    sql = "INSERT INTO [QUESTION] (MultipleChoice,FreeResponse) VALUES (null, @frid)";
+                    cmd = new OleDbCommand(sql, mDB);
+                    cmd.Parameters.AddWithValue("@frid", frid);
+                }
+                 */
                 cmd.ExecuteNonQuery();
                 qid = -1;
-                sql = "SELECT QID FROM [QUESTION] WHERE MultipleChoice = @mcid AND FreeResponse = @frid";
-                //mDB.Open();
-                //OleDbCommand cmd;
+                sql = "SELECT QuestionID FROM [QUESTION] WHERE (MultipleChoice = @mcid AND FreeResponse = @frid)";
                 cmd = new OleDbCommand(sql, mDB);
+                cmd.Parameters.AddWithValue("@mcid", mcid);
+                cmd.Parameters.AddWithValue("@frid", frid);
+                //mDB.Open();
+                /*
+                OleDbCommand cmd1;
+                if (mcid > 0)
+                {
+                    sql = "SELECT QID FROM [QUESTION] WHERE MultipleChoice = @mcid AND FreeResponse = @frid";
+                    cmd1 = new OleDbCommand(sql, mDB);
+                    cmd1.Parameters.AddWithValue("@mcid", mcid);
+                    //cmd.Parameters.AddWithValue("@frid", DBNull.Value);
+                }
+                else
+                {
+                    //cmd.Parameters.AddWithValue("@mcid", DBNull.Value);
+                    sql = "SELECT QID FROM [QUESTION] WHERE FreeResponse = @frid";
+                    cmd1 = new OleDbCommand(sql, mDB);
+                    cmd1.Parameters.AddWithValue("@frid", frid);
+                }
                 //cmd.Parameters.AddWithValue("@tlid", tlid);
-                if (mcid == 0)
+                /*
+                if (mcid > 0)
                 {
-                    cmd.Parameters.AddWithValue("@mcid", null);
-                }
-                else
-                {
+                    sql = "SELECT QID FROM [QUESTION] WHERE MultipleChoice = @mcid AND FreeResponse is null";
+                    cmd = new OleDbCommand(sql, mDB);
                     cmd.Parameters.AddWithValue("@mcid", mcid);
-                }
-                if (frid == 0)
-                {
-                    cmd.Parameters.AddWithValue("@frid", null);
+
                 }
                 else
                 {
+                    sql = "SELECT QID FROM [QUESTION] WHERE MultipleChoice is null AND FreeResponse = @frid";
+                    cmd = new OleDbCommand(sql, mDB);
                     cmd.Parameters.AddWithValue("@frid", frid);
                 }
-                //cmd.ExecuteNonQuery();
+                 */
+                cmd.ExecuteNonQuery();
                 OleDbDataReader rdr;
                 rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -1286,6 +1319,51 @@ namespace Peer
                 closeDatabaseConnection();
             }
             return frid;
+        }
+
+        public List<User> getAllUsers()
+        {
+            List<User> list = new List<User>();
+            try
+            {
+                String sql = "SELECT * FROM [USER] INNER JOIN [PERSON] ON USER.PersonID = PERSON.PersonID";
+                openDatabaseConnection();
+                mDB.Open();
+                OleDbCommand cmd;
+                cmd = new OleDbCommand(sql, mDB);
+                //cmd.Parameters.Add("@uid", OleDbType.Integer);
+                //cmd.Parameters["@uid"].Value = uid;
+                OleDbDataReader rdr;
+                rdr = cmd.ExecuteReader();
+                //Debug.WriteLine(i.ToString());
+
+                while (rdr.Read())
+                {
+                    User u = new User();
+                    //i++;
+                    int UserID = (int)rdr["UserID"];
+                    String UserName = (String)rdr["UserName"];
+                    String Password = (String)rdr["Password"];
+                    Team tid = this.getTeamByUser(UserID);
+                    List<Role> Roles = this.getRoleByUser(UserID);
+                    int PersonID = (int)rdr["USER.PersonID"];
+                    String FirstName = (String)rdr["FirstName"];
+                    String LastName = (String)rdr["LastName"];
+                    String Email = (String)rdr["Email"];
+                    int GraderNumber = Convert.ToInt16(rdr["GraderNumber"]);
+                    int Status = Convert.ToInt16(rdr["Status"]);
+
+                    u = new User(UserID, UserName, Password, tid, Roles, PersonID, FirstName, LastName, Email, Status, GraderNumber);
+                    list.Add(u);
+                }
+                rdr.Close();
+                //Debug.WriteLine(i.ToString());
+            }
+            finally
+            {
+                closeDatabaseConnection();
+            }
+            return list;
         }
 
         public string DBPath

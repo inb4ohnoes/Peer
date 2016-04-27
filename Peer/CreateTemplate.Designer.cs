@@ -93,6 +93,7 @@
             this.grp4 = new System.Windows.Forms.GroupBox();
             this.grp5 = new System.Windows.Forms.GroupBox();
             this.grp6 = new System.Windows.Forms.GroupBox();
+            this.btnBack = new System.Windows.Forms.Button();
             this.grp1.SuspendLayout();
             this.grp2.SuspendLayout();
             this.grp3.SuspendLayout();
@@ -749,11 +750,22 @@
             this.grp6.TabStop = false;
             this.grp6.Visible = false;
             // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(767, 538);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(88, 61);
+            this.btnBack.TabIndex = 119;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // CreateTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(871, 621);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.grp6);
             this.Controls.Add(this.grp5);
             this.Controls.Add(this.grp4);
@@ -851,5 +863,6 @@
         private System.Windows.Forms.GroupBox grp4;
         private System.Windows.Forms.GroupBox grp5;
         private System.Windows.Forms.GroupBox grp6;
+        private System.Windows.Forms.Button btnBack;
     }
 }
